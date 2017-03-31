@@ -9,7 +9,9 @@ public class LogicWarrior : MonoBehaviour
     public float attackDelay = 1;
     public float attackDistance = 5;
     public float damage = 5;
-    public Laser laser;
+    public float shootForce = 50;
+    public GameObject laser;
+    public GameObject shipGun;
 
     [Header("Enemy Detection")]
     public bool detectEnemies = true;
@@ -62,7 +64,7 @@ public class LogicWarrior : MonoBehaviour
     }
     void Start()
     {
-        if (!laser) Debug.LogWarning("The Laser field is empty in the " + this);
+       
 
         navagent = GetComponent<NavMeshAgent>();
         navagent.stoppingDistance = navagent.radius + 1;
@@ -91,7 +93,9 @@ public class LogicWarrior : MonoBehaviour
                 {
                     attackTime = Time.time + attackDelay;
                     target.health -= damage;
-                    if (laser) laser.Fire(target.transform);
+
+                    GameObject thisLaser = Instantiate(laser,  shipGun.transform.position, shipGun.transform.rotation ) as GameObject;
+                    thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward ) * shootForce);
                 }
             }
             else navagent.destination = target.transform.position;
