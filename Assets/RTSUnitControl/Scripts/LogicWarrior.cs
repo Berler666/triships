@@ -19,6 +19,8 @@ public class LogicWarrior : MonoBehaviour
     public bool patrolArea = true;
     public float patrolDelay = 5;
     public float patrolDistance = 10;
+
+ 
     #endregion
 
     #region PRIVATE FIELDS
@@ -43,8 +45,11 @@ public class LogicWarrior : MonoBehaviour
     {
         if (unit.selected)
         {
+          
             navagent.destination = point;
             target = null;
+
+           
         }
     }
     #endregion

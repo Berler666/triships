@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour
         if (selected)
         {
             selected = false;
-           // if (light) light.color = Color.green;
+          
         }
     }
     void Select(Unit unit)
@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
         if (unit == this)
         {
             selected = true;
-           // if (light) light.color = Color.white;
+           
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
@@ -47,7 +47,7 @@ public class Unit : MonoBehaviour
         if (rect.Contains(Camera.main.WorldToScreenPoint(transform.position)))
         {
             selected = true;
-            //if (light) light.color = Color.white;
+            
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
