@@ -8,7 +8,7 @@ public class LogicWarrior : MonoBehaviour
     [Header("Attack Settings")]
     public float attackDelay = 1;
     public float attackDistance = 5;
-    public float damage = 5;
+    public static float damage = 5;
     public float shootForce = 50;
     public GameObject laser;
     public GameObject shipGun;
@@ -92,7 +92,7 @@ public class LogicWarrior : MonoBehaviour
                 if (attackTime < Time.time)
                 {
                     attackTime = Time.time + attackDelay;
-                    target.health -= damage;
+                    //target.health -= damage;
 
                     GameObject thisLaser = Instantiate(laser,  shipGun.transform.position, shipGun.transform.rotation ) as GameObject;
                     thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward ) * shootForce);
