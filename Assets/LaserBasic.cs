@@ -20,25 +20,23 @@ public class LaserBasic : MonoBehaviour {
     void OnTriggerEnter(Collider enemy)
     {
        
-            HitTarget();
+           
         Unit obj = enemy.gameObject.GetComponent<Unit>();
 
         if(!obj && enemy.tag != "laser")
         {
             Debug.Log("missed");
+            Destroy(gameObject);
         }
 
          if(obj)
         {
             Debug.Log("hit");
             obj.health -= LogicWarrior.damage;
+            Destroy(gameObject);
         }
         
 
     }
 
-    void HitTarget()
-    {
-        Destroy(gameObject);
-    }
 }
