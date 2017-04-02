@@ -6,7 +6,9 @@ public class Unit : MonoBehaviour
     #region INSPECTOR FIELDS
     [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
     public Sprite icon;
-   // public Light light;
+
+    public GameObject explosion;
+    public GameObject model;
 
     [Header("Health")]
     public float health = 100;
@@ -78,7 +80,12 @@ public class Unit : MonoBehaviour
     {
         if (health != maxHealth)
         {
-            if (health <= 0) Destroy(gameObject);
+            if (health <= 0)
+            {
+                explosion.SetActive(true);
+                model.SetActive(false);
+                Destroy(gameObject, 2);
+            }
             else if (health < maxHealth) health += regeneration * Time.deltaTime;
             else health = maxHealth;
         }
