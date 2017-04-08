@@ -3,12 +3,15 @@ using System.Collections;
 
 public class LaserBasic : MonoBehaviour {
 
-   
+    float tnumber = 1;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
 
         Destroy(gameObject, 3);
+
+   
 	
 	}
 	
@@ -22,19 +25,29 @@ public class LaserBasic : MonoBehaviour {
        
            
         Unit obj = enemy.gameObject.GetComponent<Unit>();
+        
 
-        if(!obj && enemy.tag != "laser")
+        if (!obj && enemy.tag != "laser")
         {
             Debug.Log("missed");
             Destroy(gameObject);
         }
 
-         if(obj)
+        if (obj && enemy.GetComponent<Unit>().teamNumber != tnumber)
         {
             Debug.Log("hit");
             obj.health -= LogicWarrior.damage;
             Destroy(gameObject);
         }
+
+        if(obj && enemy.GetComponent<Unit>().teamNumber == tnumber)
+        {
+            Debug.Log("Friendly fire");
+            Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
+        }
+       
+
+        
         
 
     }

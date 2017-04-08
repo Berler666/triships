@@ -5,6 +5,7 @@ public class Unit : MonoBehaviour
 {
     #region INSPECTOR FIELDS
     [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
+    public int tnumber;
     public Sprite icon;
 
     public GameObject explosion;
@@ -59,6 +60,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         team = Team.teams[teamNumber];
+        
 
         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
 
@@ -82,9 +84,9 @@ public class Unit : MonoBehaviour
         {
             if (health <= 0)
             {
-                explosion.SetActive(true);
+                GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
                 model.SetActive(false);
-                Destroy(gameObject, 2);
+                Destroy(gameObject);
             }
             else if (health < maxHealth) health += regeneration * Time.deltaTime;
             else health = maxHealth;
