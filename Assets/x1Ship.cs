@@ -3,7 +3,7 @@ using System.Collections;
 
 public class x1Ship : MonoBehaviour {
 
-    int experince;
+    public int experince;
     int maxXp;
 
     int level;

@@ -7,6 +7,9 @@ public class Unit : MonoBehaviour
     [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
     public int tnumber;
     public Sprite icon;
+   
+
+    public int xpValue;
 
     public GameObject explosion;
     public GameObject model;
@@ -84,6 +87,7 @@ public class Unit : MonoBehaviour
         {
             if (health <= 0)
             {
+                
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
                 model.SetActive(false);
                 Destroy(gameObject);

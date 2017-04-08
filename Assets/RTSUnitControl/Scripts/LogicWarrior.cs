@@ -13,6 +13,7 @@ public class LogicWarrior : MonoBehaviour
     public GameObject laser;
     public GameObject shipGun;
     
+    
 
 
     [Header("Enemy Detection")]
@@ -94,13 +95,11 @@ public class LogicWarrior : MonoBehaviour
                 if (attackTime < Time.time)
                 {
                     attackTime = Time.time + attackDelay;
-                   
-
                     GameObject thisLaser = Instantiate(laser,  shipGun.transform.position, shipGun.transform.rotation ) as GameObject;
-                    //thisLaser.transform.parent = gameObject.transform;
                     Physics.IgnoreCollision(thisLaser.GetComponent<Collider>(), GetComponent<Collider>());
-                    
                     thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward ) * shootForce);
+
+                  
                 }
             }
             else navagent.destination = target.transform.position;
