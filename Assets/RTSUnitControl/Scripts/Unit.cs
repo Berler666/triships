@@ -7,9 +7,12 @@ public class Unit : MonoBehaviour
     [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
     public int tnumber;
     public Sprite icon;
+    public GameObject xpOrb1;
+
+    int xpSpawmAmount;
    
 
-    public int xpValue;
+  
 
     public GameObject explosion;
     public GameObject model;
@@ -89,6 +92,16 @@ public class Unit : MonoBehaviour
             {
                 
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+
+                xpSpawmAmount = Random.Range(2, 10);
+                for(int i = 0; i < xpSpawmAmount; i++ )
+                {
+                    int plusx = Random.Range(-1, 1);
+                    int plusz = Random.Range(-1, 1);
+
+                    GameObject xpOrbs = Instantiate(xpOrb1, new Vector3( transform.position.x + plusx, transform.position.y, transform.position.z + plusz) , transform.rotation) as GameObject;
+                }
+               
                 model.SetActive(false);
                 Destroy(gameObject);
             }
