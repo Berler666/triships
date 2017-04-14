@@ -5,6 +5,8 @@ public class playerMotherShip : MonoBehaviour {
 
     public GameObject x1;
 
+    GameObject mothershipMenu;
+
     public float spawntime = 5f;
 
     
@@ -12,8 +14,20 @@ public class playerMotherShip : MonoBehaviour {
 	void Awake () {
 
         StartCoroutine(SpawnShip());
-	
-	}
+
+        mothershipMenu = gameObject.transform.FindChild("MSMenu").gameObject;
+
+        if (!mothershipMenu)
+        {
+            Debug.Log("missing mothership ui");
+        }
+        else
+        {
+            mothershipMenu.SetActive(false);
+
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,5 +44,10 @@ public class playerMotherShip : MonoBehaviour {
             Instantiate(x1, position, Quaternion.identity);
         }
         
+    }
+
+    void OnMouseDown()
+    {
+        mothershipMenu.SetActive(true);
     }
 }
