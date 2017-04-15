@@ -5,7 +5,7 @@ public class playerMotherShip : MonoBehaviour {
 
     public GameObject x1;
 
-    GameObject mothershipMenu;
+    public GameObject mothershipMenu;
 
     public float spawntime = 5f;
 
@@ -15,7 +15,7 @@ public class playerMotherShip : MonoBehaviour {
 
         StartCoroutine(SpawnShip());
 
-        mothershipMenu = gameObject.transform.FindChild("MSMenu").gameObject;
+       
 
         if (!mothershipMenu)
         {
@@ -49,5 +49,7 @@ public class playerMotherShip : MonoBehaviour {
     void OnMouseDown()
     {
         mothershipMenu.SetActive(true);
+        Time.timeScale = 0;
+        Debug.Log("paused");
     }
 }
