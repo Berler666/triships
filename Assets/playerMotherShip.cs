@@ -5,6 +5,9 @@ public class playerMotherShip : MonoBehaviour {
 
     public GameObject x1;
 
+    public GameObject VHScamera;
+   
+
     public GameObject mothershipMenu;
 
     public float spawntime = 5f;
@@ -15,7 +18,7 @@ public class playerMotherShip : MonoBehaviour {
 
         StartCoroutine(SpawnShip());
 
-       
+        VHScamera.SetActive(false);
 
         if (!mothershipMenu)
         {
@@ -51,5 +54,8 @@ public class playerMotherShip : MonoBehaviour {
         mothershipMenu.SetActive(true);
         Time.timeScale = 0;
         Debug.Log("paused");
+      
+        VHScamera.SetActive(true);
+       
     }
 }
