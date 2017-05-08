@@ -12,9 +12,12 @@ public class MotherShipMenu : MonoBehaviour {
     public GameObject UPanel;
     public GameObject RPanel;
     public GameObject MPanel;
+   
 
 	// Use this for initialization
 	void Start () {
+
+      
 
         soPanel.SetActive(true);
         UPanel.SetActive(false);
@@ -31,7 +34,6 @@ public class MotherShipMenu : MonoBehaviour {
     public void BackButton()
     {
         Time.timeScale = 1;
-       
         VHScamera.SetActive(false);
       
     }

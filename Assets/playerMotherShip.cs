@@ -12,7 +12,8 @@ public class playerMotherShip : MonoBehaviour {
 
     public float spawntime = 5f;
 
-   // GameObject gameUI;
+
+  
 
     
 
@@ -44,9 +45,7 @@ public class playerMotherShip : MonoBehaviour {
 
     void OnMouseDown()
     {
-     
-       // mothershipMenu.SetActive(true);
-      
+        
         Debug.Log("paused");
         VHScamera.SetActive(true);
         Time.timeScale = 0;
