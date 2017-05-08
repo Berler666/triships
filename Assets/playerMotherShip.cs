@@ -12,6 +12,8 @@ public class playerMotherShip : MonoBehaviour {
 
     public float spawntime = 5f;
 
+   // GameObject gameUI;
+
     
 
 	void Awake () {
@@ -20,15 +22,6 @@ public class playerMotherShip : MonoBehaviour {
 
         VHScamera.SetActive(false);
 
-        if (!mothershipMenu)
-        {
-            Debug.Log("missing mothership ui");
-        }
-        else
-        {
-            mothershipMenu.SetActive(false);
-
-        }
 
     }
 	
@@ -51,11 +44,11 @@ public class playerMotherShip : MonoBehaviour {
 
     void OnMouseDown()
     {
-        mothershipMenu.SetActive(true);
-        Time.timeScale = 0;
-        Debug.Log("paused");
+     
+       // mothershipMenu.SetActive(true);
       
+        Debug.Log("paused");
         VHScamera.SetActive(true);
-       
+        Time.timeScale = 0;
     }
 }
