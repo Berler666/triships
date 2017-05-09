@@ -4,6 +4,7 @@ using System.Collections;
 public class LaserBasic : MonoBehaviour {
 
     float tnumber = 1;
+    public GameObject Laserhit;
 
 
     // Use this for initialization
@@ -37,6 +38,8 @@ public class LaserBasic : MonoBehaviour {
         {
             Debug.Log("hit");
             obj.health -= LogicWarrior.damage;
+
+            GameObject shipboom = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
         }
 
