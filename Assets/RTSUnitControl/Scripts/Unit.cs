@@ -9,7 +9,10 @@ public class Unit : MonoBehaviour
     public Sprite icon;
     public GameObject xpOrb1;
 
+    public GameObject[] debris;
+
     int xpSpawmAmount;
+    int debrisAmount;
    
 
   
@@ -93,6 +96,8 @@ public class Unit : MonoBehaviour
                 
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
 
+                Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
+
                 xpSpawmAmount = Random.Range(2, 10);
                 for(int i = 0; i < xpSpawmAmount; i++ )
                 {
@@ -101,7 +106,14 @@ public class Unit : MonoBehaviour
 
                     GameObject xpOrbs = Instantiate(xpOrb1, new Vector3( transform.position.x + plusx, transform.position.y, transform.position.z + plusz) , transform.rotation) as GameObject;
                 }
-               
+
+                debrisAmount = Random.Range(2, 6);
+                for (int i = 0; i < debrisAmount; i++)
+                {
+
+                    Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
+                }
+
                 model.SetActive(false);
                 Destroy(gameObject);
             }

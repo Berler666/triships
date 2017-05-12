@@ -15,11 +15,19 @@ public class xpOrb : MonoBehaviour {
 
     void OnTriggerEnter(Collider obj)
     {
+        x1Ship ship = obj.GetComponent<x1Ship>();
+       
+        if(ship)
+        {
+            Debug.Log("found script");
+        }
+
+        if (!ship)
+        {
+            Debug.Log("collied");
+        }
       
 
-        Debug.Log("collided");
-
-          Destroy(gameObject);
     
        
     }

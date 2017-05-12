@@ -31,7 +31,7 @@ public class x1Ship : MonoBehaviour {
             Levelup();
         }
 
-        shipLevel.text = ("LEVEL" + level);
+        shipLevel.text = ("LEVEL " + level);
 
     }
 
