@@ -8,27 +8,27 @@ public class xpOrb : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        xpValue = Random.Range(2, 10);
+        xpValue = Random.Range(40, 100);
 	
 	}
 	
 
     void OnTriggerEnter(Collider obj)
     {
-        x1Ship ship = obj.GetComponent<x1Ship>();
-       
+
+        x1Ship ship = obj.gameObject.GetComponent<x1Ship>();
+
+        if(!ship)
+        {
+            Debug.Log("Not a ship");
+        }
+
         if(ship)
         {
-            Debug.Log("found script");
+            obj.GetComponent<x1Ship>().experince += xpValue;
+            Debug.Log("xp gathered");
+            Destroy(gameObject);
         }
-
-        if (!ship)
-        {
-            Debug.Log("collied");
-        }
-      
-
-    
-       
+        
     }
 }

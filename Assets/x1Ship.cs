@@ -26,7 +26,7 @@ public class x1Ship : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (experince == maxXp)
+        if (experince >= maxXp)
         {
             Levelup();
         }
@@ -38,6 +38,7 @@ public class x1Ship : MonoBehaviour {
     void Levelup()
     {
         level += 1;
+        experince = 0;
         Debug.Log("Level " + level + "!");
 
         if(level == 1)

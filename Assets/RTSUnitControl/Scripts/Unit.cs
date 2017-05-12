@@ -94,17 +94,13 @@ public class Unit : MonoBehaviour
             if (health <= 0)
             {
                 
-                GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
-
-                Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
-
-                xpSpawmAmount = Random.Range(2, 10);
+                xpSpawmAmount = Random.Range(4, 10);
                 for(int i = 0; i < xpSpawmAmount; i++ )
                 {
-                    int plusx = Random.Range(-1, 1);
-                    int plusz = Random.Range(-1, 1);
+                    float ranX = Random.Range(-.1f, .1f);
+                    float ranZ = Random.Range(-.1f, .1f);
 
-                    GameObject xpOrbs = Instantiate(xpOrb1, new Vector3( transform.position.x + plusx, transform.position.y, transform.position.z + plusz) , transform.rotation) as GameObject;
+                    GameObject xpOrbs = Instantiate(xpOrb1, new Vector3(transform.position.x + ranX, transform.position.y, transform.position.z + ranZ), transform.rotation) as GameObject;
                 }
 
                 debrisAmount = Random.Range(2, 6);
@@ -114,7 +110,8 @@ public class Unit : MonoBehaviour
                     Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
                 }
 
-                model.SetActive(false);
+                GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+                
                 Destroy(gameObject);
             }
             else if (health < maxHealth) health += regeneration * Time.deltaTime;
