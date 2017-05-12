@@ -5,7 +5,7 @@ public class Unit : MonoBehaviour
 {
     #region INSPECTOR FIELDS
     [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
-    public int tnumber;
+   // public int tnumber;
     public Sprite icon;
     public GameObject xpOrb1;
 

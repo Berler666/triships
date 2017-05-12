@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class x1Ship : MonoBehaviour {
 
@@ -8,6 +9,8 @@ public class x1Ship : MonoBehaviour {
 
     int level;
 
+    public Text shipLevel;
+
 
 	// Use this for initialization
 	void Start () {
@@ -15,6 +18,8 @@ public class x1Ship : MonoBehaviour {
         level = 0;
         experince = 0;
         maxXp = 50;
+
+        shipLevel.GetComponent<Text>();
 	
 	}
 	
@@ -25,6 +30,8 @@ public class x1Ship : MonoBehaviour {
         {
             Levelup();
         }
+
+        shipLevel.text = ("LEVEL" + level);
 
     }
 
