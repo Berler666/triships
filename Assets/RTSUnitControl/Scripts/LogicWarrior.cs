@@ -12,8 +12,8 @@ public class LogicWarrior : MonoBehaviour
     public float shootForce = 50;
     public GameObject laser;
     public GameObject shipGun;
-    
-    
+
+    public GameObject waypoint;
 
 
     [Header("Enemy Detection")]
@@ -52,6 +52,7 @@ public class LogicWarrior : MonoBehaviour
         {
           
             navagent.destination = point;
+            Instantiate(waypoint,new Vector3 (point.x, point.y +2f, point.z), transform.rotation);
             target = null;
 
            

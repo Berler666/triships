@@ -6,6 +6,7 @@ public class UnitControl : MonoBehaviour
 {
     #region INSPECTOR FIELDS
     public Image selectBox;
+   
     #endregion
 
     #region INPUT EVENTS DEFINITION
@@ -69,6 +70,8 @@ public class UnitControl : MonoBehaviour
             if (Common.Round(downPos, position))
             {
                 RaycastHit hit;
+                
+                
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(position), out hit))
                 {
                     Unit unit = hit.transform.GetComponent<Unit>();
@@ -78,6 +81,7 @@ public class UnitControl : MonoBehaviour
                         {
                             OnDeSelect();
                             OnSelect(unit);
+
                         }
                         else if (OnAttack != null) OnAttack(unit);
                     }
