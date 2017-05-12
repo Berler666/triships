@@ -8,7 +8,7 @@ public class xpOrb : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        xpValue = Random.Range(40, 100);
+        xpValue = Random.Range(40, 500);
 	
 	}
 	

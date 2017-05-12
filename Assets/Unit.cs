@@ -4,8 +4,9 @@
 public class Unit : MonoBehaviour
 {
     #region INSPECTOR FIELDS
-    [Range(0, Team.TEAMS_COUNT-1)] public uint teamNumber = 1;
-   // public int tnumber;
+    [Range(0, Team.TEAMS_COUNT - 1)]
+    public uint teamNumber = 1;
+    // public int tnumber;
     public Sprite icon;
     public GameObject xpOrb1;
 
@@ -13,9 +14,9 @@ public class Unit : MonoBehaviour
 
     int xpSpawmAmount;
     int debrisAmount;
-   
 
-  
+
+
 
     public GameObject explosion;
     public GameObject model;
@@ -42,7 +43,7 @@ public class Unit : MonoBehaviour
         if (selected)
         {
             selected = false;
-          
+           
         }
     }
     void Select(Unit unit)
@@ -50,7 +51,7 @@ public class Unit : MonoBehaviour
         if (unit == this)
         {
             selected = true;
-           
+
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
@@ -59,7 +60,7 @@ public class Unit : MonoBehaviour
         if (rect.Contains(Camera.main.WorldToScreenPoint(transform.position)))
         {
             selected = true;
-            
+
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
@@ -69,13 +70,13 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         team = Team.teams[teamNumber];
-        
+
 
         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
 
-      
-      //  if (!light) Debug.LogWarning("The light field is empty in the " + this);
-       
+
+
+
 
         UnitControl.OnDeSelect += DeSelect;
         UnitControl.OnSelect += Select;
@@ -89,13 +90,18 @@ public class Unit : MonoBehaviour
     }
     void Update()
     {
+        if (selected == false)
+        {
+
+        }
+
         if (health != maxHealth)
         {
             if (health <= 0)
             {
-                
+
                 xpSpawmAmount = Random.Range(4, 10);
-                for(int i = 0; i < xpSpawmAmount; i++ )
+                for (int i = 0; i < xpSpawmAmount; i++)
                 {
                     float ranX = Random.Range(-.1f, .1f);
                     float ranZ = Random.Range(-.1f, .1f);
@@ -111,7 +117,7 @@ public class Unit : MonoBehaviour
                 }
 
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
-                
+                DeSelect();
                 Destroy(gameObject);
             }
             else if (health < maxHealth) health += regeneration * Time.deltaTime;
