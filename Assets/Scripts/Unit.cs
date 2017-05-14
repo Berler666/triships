@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     
     public Sprite icon;
     public GameObject xpOrb1;
+    GameObject mothership;
 
     public GameObject[] debris;
 
@@ -75,7 +76,11 @@ public class Unit : MonoBehaviour
         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
 
 
-
+        if(teamNumber == 1)
+        {
+           GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>().units += 1;
+            
+        }
 
 
         UnitControl.OnDeSelect += DeSelect;

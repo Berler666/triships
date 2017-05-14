@@ -15,6 +15,9 @@ public class playerMotherShip : MonoBehaviour {
 
     bool isPlayer = true;
 
+    private float powerRegenTime = 2f;
+    private int powerRegen = 1;
+
     [Header("Resources")]
     public float power;
     public float maxPower;
@@ -31,6 +34,7 @@ public class playerMotherShip : MonoBehaviour {
     void Awake () {
 
         StartCoroutine(SpawnShip());
+        StartCoroutine(PowerRegen());
 
         VHScamera.SetActive(false);
 
@@ -44,6 +48,8 @@ public class playerMotherShip : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+       
 	
 	}
 
@@ -53,6 +59,7 @@ public class playerMotherShip : MonoBehaviour {
         {
             yield return new WaitForSeconds(spawntime);
             Debug.Log("spawning ship");
+            power -= 1;
             Vector3 position = transform.position + new Vector3(Random.Range(-5f, 5f), 0.5f, Random.Range(-5f, 5f));
             Instantiate(x1, position, Quaternion.identity);
         }
@@ -66,6 +73,21 @@ public class playerMotherShip : MonoBehaviour {
             Debug.Log("paused");
             VHScamera.SetActive(true);
             Time.timeScale = 0;
+        }
+    }
+
+    IEnumerator PowerRegen()
+    {
+        if(power <= maxPower)
+        {
+            yield return new WaitForSecondsRealtime(powerRegenTime);
+            power += powerRegen;
+            StartCoroutine(PowerRegen());
+        }
+        
+        if(power >= maxPower)
+        {
+            StopCoroutine(PowerRegen());
         }
     }
 }
