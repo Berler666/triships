@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class playerMotherShip : MonoBehaviour {
+    #region INSPECTOR FIELDS
 
     public GameObject x1;
 
@@ -13,11 +14,21 @@ public class playerMotherShip : MonoBehaviour {
     public float spawntime = 5f;
 
     bool isPlayer = true;
-  
 
-    
+    [Header("Resources")]
+    public float power;
+    public float maxPower;
+    public float ammo;
+    public float maxAmmo;
+    public float scrap;
+    public float maxScrap;
+    public float units;
+    public float maxUnits;
 
-	void Awake () {
+    #endregion
+
+
+    void Awake () {
 
         StartCoroutine(SpawnShip());
 
