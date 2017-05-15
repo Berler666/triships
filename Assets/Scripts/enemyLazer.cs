@@ -29,23 +29,28 @@ public class enemyLazer : MonoBehaviour
 
         if (!obj && enemy.tag != "laser")
         {
-            GameObject shipboom = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
+           
             Destroy(gameObject);
         }
 
-        if (obj.teamNumber != tnumber)
+        if (obj.teamNumber == 1)
         {
            
             obj.health -= LogicWarrior.damage;
 
-            GameObject shipboom = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
+            GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
         }
 
-        if (obj.teamNumber == tnumber)
+        if (obj.GetComponent<Unit>().teamNumber == tnumber)
         {
             Debug.Log("Friendly fire");
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
+        }
+
+        if(!enemy)
+        {
+            Debug.Log("whyyy");
         }
 
     }

@@ -34,16 +34,16 @@ public class LaserBasic : MonoBehaviour {
 
         if (!obj && enemy.tag != "laser")
         {
-            Debug.Log("missed");
+            
             Destroy(gameObject);
         }
 
-        if (obj.teamNumber != tnumber)
+        if (obj.teamNumber == 2)
         {
             Debug.Log("hit");
             obj.health -= LogicWarrior.damage;
 
-            GameObject shipboom = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
+            GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
         }
 
@@ -52,6 +52,8 @@ public class LaserBasic : MonoBehaviour {
             Debug.Log("Friendly fire");
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
         }
+
+       
        
 
         

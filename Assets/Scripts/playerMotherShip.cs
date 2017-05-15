@@ -10,10 +10,12 @@ public class playerMotherShip : MonoBehaviour {
    
 
     public GameObject mothershipMenu;
+  
 
     public float spawntime = 5f;
 
     bool isPlayer = true;
+    bool canSpawn = true;
 
     private float powerRegenTime = 2f;
     private int powerRegen = 1;
@@ -49,23 +51,51 @@ public class playerMotherShip : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-       
+       if(units <= maxUnits)
+        {
+            canSpawn = true;
+        }
+
+       if (units >= maxUnits)
+        {
+            canSpawn = false;
+        }
+
+       if(units == maxUnits)
+        {
+            canSpawn = false;
+        }
 	
 	}
 
     IEnumerator SpawnShip()
     {
+        
         while (true)
         {
-            yield return new WaitForSeconds(spawntime);
-            Debug.Log("spawning ship");
-            power -= 1;
-            Vector3 position = transform.position + new Vector3(Random.Range(-5f, 5f), 0.5f, Random.Range(-5f, 5f));
-            Instantiate(x1, position, Quaternion.identity);
+            if (canSpawn == true)
+            {
+                yield return new WaitForSeconds(spawntime);
+                Debug.Log("spawning ship");
+                power -= 1;
+                Vector3 position = transform.position + new Vector3(Random.Range(-5f, 5f), 0.5f, Random.Range(-5f, 5f));
+                GameObject Ship = Instantiate(x1, position, Quaternion.identity) as GameObject;
+                
+
+            }
+
+            if (canSpawn == false)
+            {
+                
+                Debug.Log("max units reached");
+
+            }
+            yield return null;
         }
         
+        
     }
-
+    
     void OnMouseDown()
     {
         if (isPlayer == true)

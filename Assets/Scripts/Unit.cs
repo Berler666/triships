@@ -95,10 +95,7 @@ public class Unit : MonoBehaviour
     }
     void Update()
     {
-        if (selected == false)
-        {
-
-        }
+        
 
         if (health != maxHealth)
         {
@@ -119,6 +116,12 @@ public class Unit : MonoBehaviour
                 {
 
                     Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
+                }
+
+                if (teamNumber == 1)
+                {
+                    GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>().units -= 1;
+
                 }
 
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
