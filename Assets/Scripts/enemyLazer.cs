@@ -33,7 +33,7 @@ public class enemyLazer : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (obj.teamNumber == 1)
+        if (obj && obj.teamNumber == 1)
         {
            
             obj.health -= LogicWarrior.damage;
@@ -42,7 +42,7 @@ public class enemyLazer : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (obj.GetComponent<Unit>().teamNumber == tnumber)
+        if (obj && obj.GetComponent<Unit>().teamNumber == tnumber)
         {
             Debug.Log("Friendly fire");
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());

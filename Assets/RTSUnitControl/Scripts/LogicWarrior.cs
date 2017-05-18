@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Unit))]
@@ -24,18 +25,18 @@ public class LogicWarrior : MonoBehaviour
     public bool patrolArea = true;
     public float patrolDelay = 5;
     public float patrolDistance = 10;
+    float xx, yy, zz;
 
- 
     #endregion
 
     #region PRIVATE FIELDS
     NavMeshAgent navagent;
     Unit unit;
-
+    bool selected;
     float attackTime = 0;
     float patrolTime = 0;
     Vector3 pivot;
-    Unit target = null;
+    public Unit target = null;
     #endregion
 
     #region EVENTS IMPLEMENTATION
@@ -46,17 +47,21 @@ public class LogicWarrior : MonoBehaviour
             target = enemy;
         }
     }
+
     void Move(Vector3 point)
     {
         if (unit.selected)
         {
-          
-            navagent.destination = point;
-            Instantiate(waypoint,new Vector3 (point.x, point.y +2f, point.z), transform.rotation);
-            target = null;
-
-           
+            StartCoroutine(_moveWaitForEndFRame(point));
         }
+    }
+
+    IEnumerator _moveWaitForEndFRame(Vector3 point)
+    {
+        yield return new WaitForEndOfFrame();
+        navagent.destination = point;
+        Instantiate(waypoint, new Vector3(point.x, point.y + 2f, point.z), transform.rotation);
+        target = null;
     }
     #endregion
 
@@ -66,10 +71,9 @@ public class LogicWarrior : MonoBehaviour
         UnitControl.OnAttack -= Attack;
         UnitControl.OnMove -= Move;
     }
+
     void Start()
     {
-       
-
         navagent = GetComponent<NavMeshAgent>();
         navagent.stoppingDistance = navagent.radius + 1;
 
@@ -83,6 +87,12 @@ public class LogicWarrior : MonoBehaviour
 
         pivot = transform.position;
     }
+
+    void Select()
+    {
+        selected = true;
+    }
+
     void Update()
     {
         if (target)
@@ -93,14 +103,12 @@ public class LogicWarrior : MonoBehaviour
                 Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.1f);
 
-                if (attackTime < Time.time)
+                if (attackTime < Time.time && checkIfObjectFacingTheEnemy(transform.rotation, rotation))
                 {
                     attackTime = Time.time + attackDelay;
-                    GameObject thisLaser = Instantiate(laser,  shipGun.transform.position, shipGun.transform.rotation ) as GameObject;
+                    GameObject thisLaser = Instantiate(laser, shipGun.transform.position, shipGun.transform.rotation) as GameObject;
                     Physics.IgnoreCollision(thisLaser.GetComponent<Collider>(), GetComponent<Collider>());
-                    thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward ) * shootForce);
-
-                  
+                    thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward) * shootForce);
                 }
             }
             else navagent.destination = target.transform.position;
@@ -111,7 +119,7 @@ public class LogicWarrior : MonoBehaviour
             {
                 target = Common.GetNearEnemy(unit, detectionDistance);
             }
-            
+
             if (patrolArea && patrolTime < Time.time)
             {
                 patrolTime = Time.time + patrolDelay;
@@ -120,4 +128,15 @@ public class LogicWarrior : MonoBehaviour
         }
     }
     #endregion
+
+    bool checkIfObjectFacingTheEnemy(Quaternion self, Quaternion targetRot)
+    {
+        xx = Mathf.Abs(Mathf.Abs(self.x) - Mathf.Abs(targetRot.x));
+        yy = Mathf.Abs(Mathf.Abs(self.y) - Mathf.Abs(targetRot.y));
+        zz = Mathf.Abs(Mathf.Abs(self.z) - Mathf.Abs(targetRot.z));
+        if (xx < .05f && yy < .05f && zz < .05f)
+            return true;
+        else
+            return false;
+    }
 }

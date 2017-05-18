@@ -38,7 +38,7 @@ public class LaserBasic : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (obj.teamNumber == 2)
+        if (obj && obj.teamNumber == 2)
         {
             Debug.Log("hit");
             obj.health -= LogicWarrior.damage;
@@ -47,7 +47,7 @@ public class LaserBasic : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if(obj.teamNumber == tnumber)
+        if(obj && obj.teamNumber == tnumber)
         {
             Debug.Log("Friendly fire");
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
