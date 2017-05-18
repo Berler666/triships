@@ -25,9 +25,12 @@ public class MotherShipMenu : MonoBehaviour {
     public Image scrapBar;
     public Image unitsBar;
 
-
+    public Text researchTxt;
+    public Text timeToResearchTxt;
+    public Text researchDescriptionTxt;
     
     private playerMotherShip mothership;
+    PlayerResearch playerController;
     float health;
     float maxHealth;
 
@@ -37,7 +40,11 @@ public class MotherShipMenu : MonoBehaviour {
         mothership = GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>();
         if (!mothership)
             Debug.Log("Can not find player mothership");
-        
+
+        playerController = GameObject.Find("PlayerController").GetComponent<PlayerResearch>();
+        if (!mothership)
+            Debug.Log("Can not find PlayerController");
+
 
         soPanel.SetActive(true);
         UPanel.SetActive(false);
@@ -63,8 +70,10 @@ public class MotherShipMenu : MonoBehaviour {
         ammoBar.fillAmount = Map(mothership.ammo, 0, mothership.maxAmmo, 0, 1);
         scrapBar.fillAmount = Map(mothership.scrap, 0, mothership.maxScrap, 0, 1);
         unitsBar.fillAmount = Map(mothership.units, 0, mothership.maxUnits, 0, 1);
-        
 
+        researchTxt.GetComponent<Text>().text = playerController.researchPublic;
+        timeToResearchTxt.GetComponent<Text>().text = playerController.timePublic.ToString("F1");
+        researchDescriptionTxt.GetComponent<Text>().text = playerController.descriptionPublic;
     }
 
     private float Map(float value, float inMin, float inMax, float outMin, float outMax)
