@@ -6,7 +6,8 @@ public class UnitControl : MonoBehaviour
 {
     #region INSPECTOR FIELDS
     public Image selectBox;
-   
+    public GameObject waypoint;
+
     #endregion
 
     #region INPUT EVENTS DEFINITION
@@ -85,7 +86,20 @@ public class UnitControl : MonoBehaviour
                         }
                         else if (OnAttack != null) OnAttack(unit);
                     }
-                    else if (OnMove != null) OnMove(hit.point);
+                    else if (OnMove != null)
+                    {
+                        OnMove(hit.point);
+                       
+                        if(GameObject.FindGameObjectWithTag("Waypoint"))
+                        {
+                            Destroy(GameObject.FindGameObjectWithTag("Waypoint"));
+                            Instantiate(waypoint, new Vector3(hit.point.x, hit.point.y, hit.point.z), transform.rotation);
+                        }
+                        else
+                        {
+                            Instantiate(waypoint, new Vector3(hit.point.x, hit.point.y + 1.2f, hit.point.z), transform.rotation);
+                        }
+                    }
                 }
             }
             else if (downPos != Vector2.zero && OnDeSelect != null && OnSelectRect != null)
