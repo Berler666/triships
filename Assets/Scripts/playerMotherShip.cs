@@ -32,6 +32,8 @@ public class playerMotherShip : MonoBehaviour {
     public float units;
     public float maxUnits;
 
+    public int RP;
+
     #endregion
 
 

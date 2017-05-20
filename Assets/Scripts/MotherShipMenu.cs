@@ -19,6 +19,8 @@ public class MotherShipMenu : MonoBehaviour {
     public GameObject scrapText;
     public GameObject unitsText;
 
+    public Text rpTxt;
+
     public Image healthBar;
     public Image powerBar;
     public Image ammoBar;
@@ -64,6 +66,8 @@ public class MotherShipMenu : MonoBehaviour {
         ammoText.GetComponent<Text>().text = (mothership.ammo + "/" + mothership.maxAmmo);
         scrapText.GetComponent<Text>().text = (mothership.scrap + "/" + mothership.maxScrap);
         unitsText.GetComponent<Text>().text = (mothership.units + "/" + mothership.maxUnits);
+
+        rpTxt.text = "Research Points: " + mothership.RP.ToString();
 
         healthBar.fillAmount = Map(health,0,maxHealth,0,1);
         powerBar.fillAmount = Map(mothership.power, 0, mothership.maxPower, 0, 1);
