@@ -18,6 +18,8 @@ public class x1Ship : MonoBehaviour {
 
     public GameObject shipV1;
 
+    public Image xpBar;
+
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +41,8 @@ public class x1Ship : MonoBehaviour {
         }
 
         shipLevel.text = ("LEVEL " + level);
+
+        xpBar.fillAmount = Map(experince, 0, maxXp, 0, 1);
 
     }
 
@@ -98,5 +102,10 @@ public class x1Ship : MonoBehaviour {
             shipV1.SetActive(true);
         }
 
+    }
+
+    private float Map(float value, float inMin, float inMax, float outMin, float outMax)
+    {
+        return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
     }
 }

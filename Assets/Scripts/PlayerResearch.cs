@@ -5,7 +5,7 @@ public class PlayerResearch : MonoBehaviour {
 
     bool isResearhing;
 
-    bool guns;
+    bool done;
 
     public string researchPublic;
     public float timePublic;
@@ -38,7 +38,7 @@ public class PlayerResearch : MonoBehaviour {
             descriptionPublic = "";
         }
 
-
+        
 
 
 
@@ -47,7 +47,7 @@ public class PlayerResearch : MonoBehaviour {
     public IEnumerator Research(string research, int time, string description)
     {
         Debug.Log(research + time + description);
-
+        done = false;
          
         
         researchPublic = research;
@@ -59,5 +59,6 @@ public class PlayerResearch : MonoBehaviour {
         research = "";
         time = 0;
         description = "";
+        done = true;
     }
 }
