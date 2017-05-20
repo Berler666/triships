@@ -87,7 +87,8 @@ public class MotherShipMenu : MonoBehaviour {
     {
         Time.timeScale = 1;
         VHScamera.SetActive(false);
-      
+        mothership.UI.SetActive(true);
+
     }
 
     public void ShipOverview()

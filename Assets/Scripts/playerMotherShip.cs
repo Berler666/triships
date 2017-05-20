@@ -10,7 +10,9 @@ public class playerMotherShip : MonoBehaviour {
    
 
     public GameObject mothershipMenu;
-  
+
+    public GameObject UI;
+
 
     public float spawntime = 5f;
 
@@ -102,6 +104,8 @@ public class playerMotherShip : MonoBehaviour {
         {
             Debug.Log("paused");
             VHScamera.SetActive(true);
+            UI = GameObject.Find("UICanvas");
+            UI.SetActive(false);
             Time.timeScale = 0;
         }
     }
