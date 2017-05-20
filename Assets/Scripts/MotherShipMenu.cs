@@ -71,8 +71,10 @@ public class MotherShipMenu : MonoBehaviour {
         scrapBar.fillAmount = Map(mothership.scrap, 0, mothership.maxScrap, 0, 1);
         unitsBar.fillAmount = Map(mothership.units, 0, mothership.maxUnits, 0, 1);
 
+        string timedisplay = string.Format("{0}:{1:00}", (int)playerController.timePublic / 60, (int)playerController.timePublic % 60);
+
         researchTxt.GetComponent<Text>().text = playerController.researchPublic;
-        timeToResearchTxt.GetComponent<Text>().text = playerController.timePublic.ToString("F1");
+        timeToResearchTxt.GetComponent<Text>().text = "Completed in: " + timedisplay;
         researchDescriptionTxt.GetComponent<Text>().text = playerController.descriptionPublic;
     }
 

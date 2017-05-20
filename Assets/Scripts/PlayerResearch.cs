@@ -5,6 +5,8 @@ public class PlayerResearch : MonoBehaviour {
 
     bool isResearhing;
 
+    bool guns;
+
     public string researchPublic;
     public float timePublic;
     public string descriptionPublic;
@@ -14,7 +16,7 @@ public class PlayerResearch : MonoBehaviour {
 
         isResearhing = false;
 
-        StartCoroutine(Research("Gun", 5, "it goes boom"));
+        StartCoroutine(Research("Gun", 10, "it goes boom"));
 	
 	}
 	
@@ -30,15 +32,23 @@ public class PlayerResearch : MonoBehaviour {
         }
 
         if (timePublic == 0 || timePublic <= 0)
+        {
             timePublic = 0;
+            researchPublic = "";
+            descriptionPublic = "";
+        }
 
-        
-	
-	}
+
+
+
+
+    }
 
     public IEnumerator Research(string research, int time, string description)
     {
         Debug.Log(research + time + description);
+
+         
         
         researchPublic = research;
         timePublic = time;
