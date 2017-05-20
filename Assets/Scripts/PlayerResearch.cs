@@ -3,7 +3,9 @@ using System.Collections;
 
 public class PlayerResearch : MonoBehaviour {
 
-    bool isResearhing;
+    public bool isResearhing;
+
+    
 
     bool done;
 
@@ -34,8 +36,7 @@ public class PlayerResearch : MonoBehaviour {
         if (timePublic == 0 || timePublic <= 0)
         {
             timePublic = 0;
-            researchPublic = "";
-            descriptionPublic = "";
+          
         }
 
         
@@ -59,6 +60,8 @@ public class PlayerResearch : MonoBehaviour {
         research = "";
         time = 0;
         description = "";
+        researchPublic = "";
+        descriptionPublic = "";
         done = true;
     }
 }

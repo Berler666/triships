@@ -18,6 +18,7 @@ public class MotherShipMenu : MonoBehaviour {
     public GameObject ammoText;
     public GameObject scrapText;
     public GameObject unitsText;
+    public GameObject ResearchOverDisplay;
 
     public Text rpTxt;
 
@@ -80,6 +81,15 @@ public class MotherShipMenu : MonoBehaviour {
         researchTxt.GetComponent<Text>().text = playerController.researchPublic;
         timeToResearchTxt.GetComponent<Text>().text = "Completed in: " + timedisplay;
         researchDescriptionTxt.GetComponent<Text>().text = playerController.descriptionPublic;
+
+        if(playerController.isResearhing == true)
+        {
+            ResearchOverDisplay.SetActive(true);
+        } 
+        else
+        {
+            ResearchOverDisplay.SetActive(false);
+        }
     }
 
     private float Map(float value, float inMin, float inMax, float outMin, float outMax)
