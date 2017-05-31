@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Unit : MonoBehaviour
@@ -26,6 +27,7 @@ public class Unit : MonoBehaviour
     public float health = 100;
     public float maxHealth = 100;
     public float regeneration = 1;
+    public Image healthBar;
     #endregion
 
     #region PUBLIC FIELDS
@@ -68,6 +70,12 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region ENGINE MESSAGES
+
+    private float Map(float value, float inMin, float inMax, float outMin, float outMax)
+    {
+        return (value - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    }
+
     void Awake()
     {
         team = Team.teams[teamNumber];
@@ -95,8 +103,15 @@ public class Unit : MonoBehaviour
     }
     void Update()
     {
-        
+        if(health >= 0)
+        {
+            healthBar.fillAmount = Map(health, 0, maxHealth, 0, 1);
 
+        }
+      
+        
+        
+     
         if (health != maxHealth)
         {
             if (health <= 0)
@@ -124,12 +139,22 @@ public class Unit : MonoBehaviour
 
                 }
 
+               
+
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
                 DeSelect();
                 Destroy(gameObject);
             }
-            else if (health < maxHealth) health += regeneration * Time.deltaTime;
-            else health = maxHealth;
+            else if (health < maxHealth)
+            {
+                health += regeneration * Time.deltaTime;
+
+            }
+            else
+            {
+                health = maxHealth;
+             
+            }
         }
     }
     #endregion

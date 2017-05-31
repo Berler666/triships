@@ -27,8 +27,8 @@ public class playerMotherShip : MonoBehaviour {
     public float maxPower;
     public float ammo;
     public float maxAmmo;
-    public float scrap;
-    public float maxScrap;
+    public float Biosium;
+    public float maxBiosium;
     public float units;
     public float maxUnits;
 
@@ -80,7 +80,7 @@ public class playerMotherShip : MonoBehaviour {
             if (canSpawn == true)
             {
                 yield return new WaitForSeconds(spawntime);
-                Debug.Log("spawning ship");
+               
                 power -= 1;
                 Vector3 position = transform.position + new Vector3(Random.Range(-5f, 5f), 0.5f, Random.Range(-5f, 5f));
                 GameObject Ship = Instantiate(x1, position, Quaternion.identity) as GameObject;
@@ -91,7 +91,7 @@ public class playerMotherShip : MonoBehaviour {
             if (canSpawn == false)
             {
                 
-                Debug.Log("max units reached");
+               Debug.Log("max units reached");
 
             }
             yield return null;
@@ -104,7 +104,7 @@ public class playerMotherShip : MonoBehaviour {
     {
         if (isPlayer == true)
         {
-            Debug.Log("paused");
+          
             VHScamera.SetActive(true);
             UI = GameObject.Find("UICanvas");
             UI.SetActive(false);

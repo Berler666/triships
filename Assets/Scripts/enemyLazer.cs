@@ -9,6 +9,8 @@ public class enemyLazer : MonoBehaviour
 
     int tnumber = 2;
 
+    public float damage = 5;
+
 
     // Use this for initialization
     void Start()
@@ -36,7 +38,7 @@ public class enemyLazer : MonoBehaviour
         if (obj && obj.teamNumber == 1)
         {
            
-            obj.health -= LogicWarrior.damage;
+            obj.health -= damage;
 
             GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
@@ -44,15 +46,16 @@ public class enemyLazer : MonoBehaviour
 
         if (obj && obj.GetComponent<Unit>().teamNumber == tnumber)
         {
-            Debug.Log("Friendly fire");
+           
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
         }
 
-        if(!enemy)
-        {
-            Debug.Log("whyyy");
-        }
+        
 
     }
 
 }
+
+                           
+
+                          

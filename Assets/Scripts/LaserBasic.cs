@@ -8,6 +8,10 @@ public class LaserBasic : MonoBehaviour {
 
     int tnumber = 1;
 
+    public float damage;
+
+    public bool kill = false;
+
 
     // Use this for initialization
     void Start () {
@@ -40,8 +44,14 @@ public class LaserBasic : MonoBehaviour {
 
         if (obj && obj.teamNumber == 2)
         {
-            Debug.Log("hit");
-            obj.health -= LogicWarrior.damage;
+           
+            obj.health -= damage;
+
+            if(obj.health <= 0)
+            {
+                kill = true;
+                Debug.Log("working");
+            }
 
             GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
@@ -49,7 +59,7 @@ public class LaserBasic : MonoBehaviour {
 
         if(obj && obj.teamNumber == tnumber)
         {
-            Debug.Log("Friendly fire");
+           
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
         }
 

@@ -20,9 +20,15 @@ public class x1Ship : MonoBehaviour {
 
     public Image xpBar;
 
+    Unit unit;
+    LogicWarrior logicWar;
+
 
 	// Use this for initialization
 	void Start () {
+
+        unit = GetComponent<Unit>();
+        logicWar = GetComponent<LogicWarrior>();
 
         level = 0;
         experince = 0;
@@ -40,7 +46,7 @@ public class x1Ship : MonoBehaviour {
             Levelup();
         }
 
-        shipLevel.text = ("LEVEL " + level);
+        shipLevel.text = (" LVL: " + level);
 
         xpBar.fillAmount = Map(experince, 0, maxXp, 0, 1);
 
@@ -53,38 +59,146 @@ public class x1Ship : MonoBehaviour {
         Debug.Log("Level " + level + "!");
 
         if (level == 1)
+        {
             maxXp = 75;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+         
+
 
         if (level == 2)
-            maxXp = 150;
+        {
+            maxXp = 100;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+            
 
         if (level == 3)
-            maxXp = 300;
+        {
+            maxXp = 150;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+          
 
         if (level == 4)
-            maxXp = 450;
+        {
+            maxXp = 220;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+           
 
         if (level == 5)
-            maxXp = 600;
+        {
+            maxXp = 300;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
 
         if (level == 6)
-            maxXp = 750;
+        {
+            maxXp = 380;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
 
         if (level == 7)
-            maxXp = 900;
+        {
+            maxXp = 460;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
 
         if (level == 8)
-            maxXp = 1050;
+        {
+            maxXp = 550;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
 
         if (level == 9)
-            maxXp = 1200;
+        {
+            maxXp = 650;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
 
         if (level == 10)
         {
-            maxXp = 1350;
+            maxXp = 750;
             Evolve();
+            logicWar.Wdamage += Random.Range(1, 20);
+            unit.maxHealth += Random.Range(1, 20);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
         }
-         
+
+        if (level == 11)
+        {
+            maxXp = 750;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+
+        if (level == 12)
+        {
+            maxXp = 650;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+
+        if (level == 13)
+        {
+            maxXp = 650;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+
+        if (level == 14)
+        {
+            maxXp = 650;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+
+        if (level == 15)
+        {
+            maxXp = 650;
+            logicWar.Wdamage += Random.Range(1, 10);
+            unit.maxHealth += Random.Range(1, 10);
+            unit.health = unit.maxHealth;
+            Debug.Log("Level up! damage:" + GetComponent<LogicWarrior>().Wdamage);
+        }
+
 
 
     }

@@ -65,7 +65,7 @@ public class MotherShipMenu : MonoBehaviour {
         healthText.GetComponent<Text>().text = (health + "/" + maxHealth);
         powerText.GetComponent<Text>().text = (mothership.power + "/" + mothership.maxPower);
         ammoText.GetComponent<Text>().text = (mothership.ammo + "/" + mothership.maxAmmo);
-        scrapText.GetComponent<Text>().text = (mothership.scrap + "/" + mothership.maxScrap);
+        scrapText.GetComponent<Text>().text = (mothership.Biosium + "/" + mothership.maxBiosium);
         unitsText.GetComponent<Text>().text = (mothership.units + "/" + mothership.maxUnits);
 
         rpTxt.text = "Research Points: " + mothership.RP.ToString();
@@ -73,10 +73,10 @@ public class MotherShipMenu : MonoBehaviour {
         healthBar.fillAmount = Map(health,0,maxHealth,0,1);
         powerBar.fillAmount = Map(mothership.power, 0, mothership.maxPower, 0, 1);
         ammoBar.fillAmount = Map(mothership.ammo, 0, mothership.maxAmmo, 0, 1);
-        scrapBar.fillAmount = Map(mothership.scrap, 0, mothership.maxScrap, 0, 1);
+        scrapBar.fillAmount = Map(mothership.Biosium, 0, mothership.maxBiosium, 0, 1);
         unitsBar.fillAmount = Map(mothership.units, 0, mothership.maxUnits, 0, 1);
 
-        string timedisplay = string.Format("{0}:{1:00}", (int)playerController.timePublic / 60, (int)playerController.timePublic % 60);
+        string timedisplay = string.Format("{0:00}:{1:00}:{2:00}", (int)playerController.timePublic / 3600, (int)playerController.timePublic / 60, (int)playerController.timePublic % 60);
 
         researchTxt.GetComponent<Text>().text = playerController.researchPublic;
         timeToResearchTxt.GetComponent<Text>().text = "Completed in: " + timedisplay;
