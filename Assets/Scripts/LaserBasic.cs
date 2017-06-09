@@ -5,12 +5,13 @@ public class LaserBasic : MonoBehaviour {
 
     
     public GameObject Laserhit;
+    public GameObject myship;
 
     int tnumber = 1;
 
     public float damage;
 
-    public bool kill = false;
+   
 
 
     // Use this for initialization
@@ -46,12 +47,9 @@ public class LaserBasic : MonoBehaviour {
         {
            
             obj.health -= damage;
+            obj.killedByShip = myship;
 
-            if(obj.health <= 0)
-            {
-                kill = true;
-                Debug.Log("working");
-            }
+            
 
             GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);

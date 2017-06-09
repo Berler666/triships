@@ -11,10 +11,13 @@ public class Unit : MonoBehaviour
     public Sprite icon;
     public GameObject xpOrb1;
     GameObject mothership;
+    public GameObject killedByShip;
 
     public GameObject[] debris;
 
     int xpSpawmAmount;
+   
+     
     int debrisAmount;
 
 
@@ -80,6 +83,8 @@ public class Unit : MonoBehaviour
     {
         team = Team.teams[teamNumber];
 
+       
+
 
         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
 
@@ -116,18 +121,19 @@ public class Unit : MonoBehaviour
         {
             if (health <= 0)
             {
-
+                
                 xpSpawmAmount = Random.Range(4, 10);
                 for (int i = 0; i < xpSpawmAmount; i++)
                 {
                     float ranX = Random.Range(-.1f, .1f);
                     float ranZ = Random.Range(-.1f, .1f);
 
-                    GameObject xpOrbs = Instantiate(xpOrb1, new Vector3(transform.position.x + ranX, transform.position.y, transform.position.z + ranZ), transform.rotation) as GameObject;
+                    GameObject xporb = Instantiate(xpOrb1, new Vector3(transform.position.x + ranX, transform.position.y, transform.position.z + ranZ), transform.rotation) as GameObject;
+                    xporb.GetComponent<xpOrb>().GotoObject = killedByShip;
                 }
 
                 debrisAmount = Random.Range(2, 6);
-                for (int i = 0; i < debrisAmount; i++)
+                for (int j = 0; j < debrisAmount; j++)
                 {
 
                     Instantiate(debris[Random.Range(0, debris.Length)], transform.position, transform.rotation);
@@ -139,9 +145,10 @@ public class Unit : MonoBehaviour
 
                 }
 
-               
 
+                
                 GameObject shipboom = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+                
                 DeSelect();
                 Destroy(gameObject);
             }

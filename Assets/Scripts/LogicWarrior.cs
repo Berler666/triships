@@ -13,6 +13,9 @@ public class LogicWarrior : MonoBehaviour
     public float shootForce = 50;
     public GameObject laser;
     public GameObject shipGun;
+    public AudioClip laserSound;
+    private AudioSource source;
+    public AudioClip engineSound;
 
    
 
@@ -60,6 +63,8 @@ public class LogicWarrior : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         navagent.destination = point;
+        source.PlayOneShot(engineSound);
+        
        
         target = null;
     }
@@ -74,6 +79,7 @@ public class LogicWarrior : MonoBehaviour
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
         navagent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         navagent.stoppingDistance = navagent.radius + 1;
 
@@ -107,8 +113,18 @@ public class LogicWarrior : MonoBehaviour
                 {
                     attackTime = Time.time + attackDelay;
                     GameObject thisLaser = Instantiate(laser, shipGun.transform.position, shipGun.transform.rotation) as GameObject;
+                    source.PlayOneShot(laserSound);
                     Physics.IgnoreCollision(thisLaser.GetComponent<Collider>(), GetComponent<Collider>());
+                   
                     thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward) * shootForce);
+                    if (unit.team == Team.playerTeam )
+                    {
+                        thisLaser.GetComponent<LaserBasic>().myship = this.gameObject;
+                    }
+                    else
+                    {
+                        thisLaser.GetComponent<enemyLazer>().myship = this.gameObject;
+                    }
                 }
             }
             else navagent.destination = target.transform.position;

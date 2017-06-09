@@ -6,6 +6,7 @@ public class enemyLazer : MonoBehaviour
 
 
     public GameObject Laserhit;
+    public GameObject myship;
 
     int tnumber = 2;
 
@@ -39,6 +40,7 @@ public class enemyLazer : MonoBehaviour
         {
            
             obj.health -= damage;
+            obj.killedByShip = myship;
 
             GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
             Destroy(gameObject);
