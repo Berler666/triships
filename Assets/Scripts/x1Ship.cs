@@ -6,6 +6,7 @@ public class x1Ship : MonoBehaviour {
 
     public int experince;
     int maxXp;
+    
 
     int level;
     int evolveLevel = 0;

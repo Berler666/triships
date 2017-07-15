@@ -96,7 +96,7 @@ public class UnitControl : MonoBehaviour
         else if (Input.GetButtonUp("Fire2"))
         {
             RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(position), out hit))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(position), out hit, Mathf.Infinity))
             {
                 Unit unit = hit.transform.GetComponent<Unit>();
                 if (unit)

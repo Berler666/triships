@@ -15,7 +15,10 @@ public class LogicWarrior : MonoBehaviour
     public GameObject shipGun;
     public AudioClip laserSound;
     private AudioSource source;
+    public AudioSource Engine;
     public AudioClip engineSound;
+    public ParticleSystem EngineParticles;
+    public ParticleSystem EngineGlowParticles;
 
    
 
@@ -63,8 +66,6 @@ public class LogicWarrior : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         navagent.destination = point;
-        source.PlayOneShot(engineSound);
-        
        
         target = null;
     }
@@ -80,8 +81,11 @@ public class LogicWarrior : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
+        Engine.GetComponent<AudioSource>();
         navagent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         navagent.stoppingDistance = navagent.radius + 1;
+        EngineParticles = EngineParticles.GetComponent<ParticleSystem>();
+        EngineGlowParticles = EngineParticles.GetComponent<ParticleSystem>();
 
         unit = GetComponent<Unit>();
         if (unit.team == Team.playerTeam)
@@ -108,9 +112,11 @@ public class LogicWarrior : MonoBehaviour
                 navagent.destination = transform.position;
                 Quaternion rotation = Quaternion.LookRotation(target.transform.position - transform.position);
                 transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 0.1f);
+               
 
                 if (attackTime < Time.time && checkIfObjectFacingTheEnemy(transform.rotation, rotation))
                 {
+                   
                     attackTime = Time.time + attackDelay;
                     GameObject thisLaser = Instantiate(laser, shipGun.transform.position, shipGun.transform.rotation) as GameObject;
                     source.PlayOneShot(laserSound);
@@ -142,6 +148,27 @@ public class LogicWarrior : MonoBehaviour
                 navagent.destination = Common.GetRandomNavPoint(pivot, patrolDistance);
             }
         }
+        var main = EngineParticles.main;
+        var main1 = EngineGlowParticles.main;
+
+        main.startSpeed = navagent.velocity.z ;
+        main1.startSpeed = navagent.velocity.z ;
+        
+
+        if (Engine)
+        { // A pointer to the AudioSource component
+            if (Mathf.Abs(navagent.velocity.z) > 0.01f)
+            {
+                if (!Engine.isPlaying)
+                {
+                    Engine.clip = engineSound;
+                    Engine.Play();
+                }
+            }
+            else Engine.Stop();
+        }
+
+
     }
     #endregion
 
@@ -155,4 +182,6 @@ public class LogicWarrior : MonoBehaviour
         else
             return false;
     }
+
+    
 }

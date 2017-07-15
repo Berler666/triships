@@ -52,7 +52,17 @@ public class enemyLazer : MonoBehaviour
             Physics.IgnoreCollision(GetComponent<Collider>(), obj.GetComponent<Collider>());
         }
 
-        
+        if (enemy.tag == "Junk")
+        {
+            GameObject hit = Instantiate(Laserhit, transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;
+            Destroy(enemy);
+            Destroy(gameObject);
+        }
+
+        if (!obj && enemy.tag == "Xp")
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(), enemy.GetComponent<Collider>());
+        }
 
     }
 

@@ -11,6 +11,7 @@ public class PlayerResearch : MonoBehaviour {
     public string descriptionPublic;
     playerMotherShip mothership;
     public GameObject researchList;
+    public GameObject upgradesList;
     public GameObject reserchbutton;
 
     Color32 myBlue = new Color32(0, 230, 254, 255);
@@ -20,10 +21,17 @@ public class PlayerResearch : MonoBehaviour {
     //Research Bools
     bool x1Hp1 = false;
     bool x1Atk1 = false;
-    bool msTurrent1 = false;
+   
     bool junkShip = false;
     bool powerStorage1 = false;
     bool x1SpawnTime1 = false;
+
+
+    //Mothership Research
+    bool MothershipHP1 = false;
+    bool msTurrent1 = false;
+    bool ResearchCenter = false;
+    bool AsteroidShields = false;
 
 
     //Research things
@@ -42,17 +50,34 @@ public class PlayerResearch : MonoBehaviour {
     Text x1atk1Time;
     bool showx1atk1Time = false;
 
-    public GameObject msTurrent1Btn;
-    Text msturrent1Time;
-    bool showmsTurrent1Time = false;
+    
 
     public GameObject x1Spawnupgrade1Btn;
     Text x1spawn1Time;
     bool showx1spawn1Time = false;
 
-  
+    //Mothership Research Button
+    public GameObject mothershipHP1UpgradeBtn;
+    Text mothershipHp1Time;
+    bool showMothershipHp1Time = false;
 
-    
+    public GameObject msTurrent1Btn;
+    public GameObject msUpgradeTurrent1Btn;
+    Text msturrent1Time;
+    bool showmsTurrent1Time = false;
+
+    public GameObject ResearchCenterUpgradeBtn;
+    public GameObject ResearchCenterButton;
+    Text researchCenterTime;
+    bool showResearchCenterTime = false;
+
+    public GameObject AsteroidShieldsUpgradeBtn;
+    Text AsteroidShieldsTime;
+    bool ShowAsteroidShieldsTime = false;
+
+
+
+
 
     // Use this for initialization
     void Start () {
@@ -86,9 +111,33 @@ public class PlayerResearch : MonoBehaviour {
 
 
        timeDis = string.Format("{0:00}:{1:00}:{2:00}", (int)timePublic / 3600, (int)timePublic / 60, (int)timePublic % 60);
-       
 
-        if(showjunkshipTime == true)
+        //Mothership Research Time Display
+        if (showMothershipHp1Time == true)
+        {
+            mothershipHp1Time.text = timeDis;
+        }
+
+        if (showmsTurrent1Time == true)
+        {
+            msturrent1Time.text = timeDis;
+        }
+
+        if (showResearchCenterTime == true)
+        {
+            researchCenterTime.text = timeDis;
+        }
+
+        if (ShowAsteroidShieldsTime == true)
+        {
+            AsteroidShieldsTime.text = timeDis;
+        }
+
+
+
+
+
+        if (showjunkshipTime == true)
         {
             junkshipTime.text = timeDis;
         }
@@ -103,10 +152,7 @@ public class PlayerResearch : MonoBehaviour {
             x1atk1Time.text = timeDis;
         }
 
-        if(showmsTurrent1Time == true)
-        {
-            msturrent1Time.text = timeDis;
-        }
+       
 
         if (showx1spawn1Time == true)
         {
@@ -128,6 +174,191 @@ public class PlayerResearch : MonoBehaviour {
         time = 0;
         description = "";
     }
+
+    //MotherShip Research Button Functions
+
+        //Mothership Hp1 Upgrade
+    public IEnumerator MothershipHp1Upgrade()
+    {
+
+
+        isResearhing = true;
+        showMothershipHp1Time = true;
+        mothershipHP1UpgradeBtn.GetComponent<Image>().color = myGren;
+        Text[] msHp1Txts = mothershipHP1UpgradeBtn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in msHp1Txts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        MothershipHP1 = true;
+        mothership.GetComponent<Unit>().maxHealth += 25;
+        isResearhing = false;
+        showMothershipHp1Time = false;
+        Destroy(mothershipHP1UpgradeBtn);
+        Debug.Log("Mothership Health Upgrade researched");
+
+
+
+    }
+    public void ResearchMothershipHp1()
+    {
+        mothershipHp1Time = mothershipHP1UpgradeBtn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Mothership Hp I", 30, "+25 health to the Mothership"));
+            StartCoroutine(MothershipHp1Upgrade());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    //MotherShip Turrent 1 Upgrade
+    public IEnumerator MsTurentUpgrade1()
+    {
+
+
+        isResearhing = true;
+        showmsTurrent1Time = true;
+        msTurrent1Btn.GetComponent<Image>().color = myGren;
+        Text[] msTurrent1texts = msTurrent1Btn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in msTurrent1texts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        msTurrent1 = true;
+        GameObject tRchBtn = Instantiate(msUpgradeTurrent1Btn);
+        tRchBtn.transform.SetParent(upgradesList.transform, false);
+        isResearhing = false;
+        showmsTurrent1Time = false;
+        Destroy(msTurrent1Btn);
+        Debug.Log("Mothership Turrent Upgrade researched");
+
+
+
+    }
+    public void ResearchMsTurrent1()
+    {
+        msturrent1Time = msTurrent1Btn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Mothership Turrent Upgrade 1", 25, "Allows you to build a turrent on the mothership"));
+            StartCoroutine(MsTurentUpgrade1());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    //Research Center Upgrade
+    public IEnumerator ResearchCenterUpgrade()
+    {
+
+
+        isResearhing = true;
+        showResearchCenterTime = true;
+        ResearchCenterUpgradeBtn.GetComponent<Image>().color = myGren;
+        Text[] ResearhCenterTxts = ResearchCenterUpgradeBtn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in ResearhCenterTxts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        ResearchCenter = true;
+        GameObject RchCntBtn = Instantiate(ResearchCenterButton);
+        RchCntBtn.transform.SetParent(upgradesList.transform, false);
+        isResearhing = false;
+        showResearchCenterTime = false;
+        Destroy(ResearchCenterUpgradeBtn);
+        Debug.Log("Research Center Upgrade researched");
+
+
+
+    }
+    public void ResearchResearchCenter()
+    {
+        researchCenterTime = ResearchCenterUpgradeBtn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Research Center", 25, "Allows you to build the Research Center extension"));
+            StartCoroutine(ResearchCenterUpgrade());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    //Asteroid Shields Upgrade
+    public IEnumerator AsteroidShieldsUpgrade()
+    {
+
+
+        isResearhing = true;
+        ShowAsteroidShieldsTime = true;
+        AsteroidShieldsUpgradeBtn.GetComponent<Image>().color = myGren;
+        Text[] AsteroidShieldTxts = AsteroidShieldsUpgradeBtn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in AsteroidShieldTxts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        AsteroidShields = true;
+        isResearhing = false;
+        ShowAsteroidShieldsTime = false;
+        Destroy(AsteroidShieldsUpgradeBtn);
+        Debug.Log("Asteroid Shields Upgrade researched");
+
+
+
+    }
+
+    public void ResearchAsteroidShields()
+    {
+        AsteroidShieldsTime = AsteroidShieldsUpgradeBtn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Asteroid Shields", 25, "Weak shields barly capable of protecting against goat size asteroids"));
+            StartCoroutine(AsteroidShieldsUpgrade());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+
+
+
+
 
 
 
@@ -168,7 +399,7 @@ public class PlayerResearch : MonoBehaviour {
         }
         else
         {
-            Debug.Log("not enough resources");
+            NotEoughResources.showNER = true;
         }
 
 
@@ -211,54 +442,13 @@ public class PlayerResearch : MonoBehaviour {
         }
         else
         {
-            Debug.Log("not enough resources");
+            NotEoughResources.showNER = true;
         }
 
 
     }
 
-    public IEnumerator MsTurentUpgrade1()
-    {
 
-
-        isResearhing = true;
-        showmsTurrent1Time = true;
-        msTurrent1Btn.GetComponent<Image>().color = myGren;
-        Text[] msTurrent1texts = msTurrent1Btn.GetComponentsInChildren<Text>();
-
-        foreach (Text text in msTurrent1texts)
-            text.color = myGren;
-
-        yield return new WaitForSecondsRealtime(timePublic);
-        msTurrent1 = true;
-        isResearhing = false;
-        showmsTurrent1Time = false;
-        Destroy(msTurrent1Btn);
-        Debug.Log("Mothership Turrent Upgrade researched");
-
-
-
-    }
-
-    public void ResearchMsTurrent1()
-    {
-        msturrent1Time = msTurrent1Btn.transform.Find("Time").GetComponent<Text>();
-
-        if (mothership.power >= 10 && isResearhing == false)
-        {
-            mothership.power -= 10;
-
-            StartCoroutine(Research("Mothership Turrent Upgrade 1", 25, "Allows you to build a turrent on the mothership"));
-            StartCoroutine(MsTurentUpgrade1());
-
-        }
-        else
-        {
-            Debug.Log("not enough resources");
-        }
-
-
-    }
 
     public IEnumerator x1SpawnTimeUpgrade1()
     {
@@ -297,7 +487,7 @@ public class PlayerResearch : MonoBehaviour {
         }
         else
         {
-            Debug.Log("not enough resources");
+            NotEoughResources.showNER = true;
         }
 
 
@@ -338,7 +528,7 @@ public class PlayerResearch : MonoBehaviour {
         }
         else
         {
-            Debug.Log("not enough resources");
+            NotEoughResources.showNER = true;
         }
 
 
@@ -364,7 +554,7 @@ public class PlayerResearch : MonoBehaviour {
         }
         else
         {
-            Debug.Log("not enough resources");
+            NotEoughResources.showNER = true;
         }
 
 

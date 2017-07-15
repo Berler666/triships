@@ -7,6 +7,11 @@ public class Unit : MonoBehaviour
     #region INSPECTOR FIELDS
     [Range(0, Team.TEAMS_COUNT - 1)]
     public uint teamNumber = 1;
+
+    Color32 Full = new Color32(255, 255, 255, 255);
+    Color32 Empty = new Color32(255, 255, 255, 0);
+
+    bool fade = true;
     
     public Sprite icon;
     public GameObject xpOrb1;
@@ -16,12 +21,12 @@ public class Unit : MonoBehaviour
     public GameObject[] debris;
 
     int xpSpawmAmount;
-   
-     
+
+    public GameObject shipcanvas;
     int debrisAmount;
 
-
-
+    Text[] shipsTxts;
+    Image[] shipsImages;
 
     public GameObject explosion;
     public GameObject model;
@@ -50,6 +55,8 @@ public class Unit : MonoBehaviour
         {
             selected = false;
            
+           
+
         }
     }
     void Select(Unit unit)
@@ -57,6 +64,8 @@ public class Unit : MonoBehaviour
         if (unit == this)
         {
             selected = true;
+           
+          
 
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
@@ -66,7 +75,7 @@ public class Unit : MonoBehaviour
         if (rect.Contains(Camera.main.WorldToScreenPoint(transform.position)))
         {
             selected = true;
-
+           
             if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
@@ -85,9 +94,9 @@ public class Unit : MonoBehaviour
 
        
 
-
         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
 
+       
 
         if(teamNumber == 1)
         {
@@ -113,8 +122,40 @@ public class Unit : MonoBehaviour
             healthBar.fillAmount = Map(health, 0, maxHealth, 0, 1);
 
         }
-      
-        
+
+        if (selected)
+        {
+            fade = false;
+        }
+
+        if(!selected)
+        {
+            fade = true;
+        }
+
+        if (fade == true)
+        {
+            Text[] shipsTxts = shipcanvas.GetComponentsInChildren<Text>();
+            Image[] shipsImages = shipcanvas.GetComponentsInChildren<Image>();
+            foreach (Text text in shipsTxts)
+                text.color = Color32.Lerp(Empty, Full, 5f);
+
+            foreach (Image image in shipsImages)
+                image.color = Color32.Lerp(Empty, Full, 5f);
+
+           // fade;
+        }
+        else
+        {
+            Text[] shipsTxts = shipcanvas.GetComponentsInChildren<Text>();
+            Image[] shipsImages = shipcanvas.GetComponentsInChildren<Image>();
+            foreach (Text text in shipsTxts)
+                text.color = Color32.Lerp(Full, Empty, .5f);
+
+            foreach (Image image in shipsImages)
+                image.color = Color32.Lerp(Full, Empty, .5f);
+
+        }
         
      
         if (health != maxHealth)
@@ -122,7 +163,7 @@ public class Unit : MonoBehaviour
             if (health <= 0)
             {
                 
-                xpSpawmAmount = Random.Range(4, 10);
+                xpSpawmAmount = Random.Range(10, 20);
                 for (int i = 0; i < xpSpawmAmount; i++)
                 {
                     float ranX = Random.Range(-.1f, .1f);

@@ -7,6 +7,7 @@ public class playerMotherShip : MonoBehaviour {
     public GameObject x1;
 
     public GameObject VHScamera;
+    public GameObject MainCamera;
    
 
     public GameObject mothershipMenu;
@@ -91,7 +92,7 @@ public class playerMotherShip : MonoBehaviour {
             if (canSpawn == false)
             {
                 
-               Debug.Log("max units reached");
+               //Debug.Log("max units reached");
 
             }
             yield return null;
@@ -106,9 +107,10 @@ public class playerMotherShip : MonoBehaviour {
         {
           
             VHScamera.SetActive(true);
-            UI = GameObject.Find("UICanvas");
+            MainCamera.GetComponent<ISRTSCamera>().enabled = false;
+            MainCamera.GetComponent<ISRTSCamera>().StopAllCoroutines();
             UI.SetActive(false);
-            Time.timeScale = 0;
+           
         }
     }
 

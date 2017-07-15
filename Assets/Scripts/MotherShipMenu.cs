@@ -102,6 +102,9 @@ public class MotherShipMenu : MonoBehaviour {
         Time.timeScale = 1;
         VHScamera.SetActive(false);
         mothership.UI.SetActive(true);
+        mothership.MainCamera.GetComponent<ISRTSCamera>().enabled = true;
+        mothership.MainCamera.GetComponent<ISRTSCamera>().Start();
+
 
     }
 
