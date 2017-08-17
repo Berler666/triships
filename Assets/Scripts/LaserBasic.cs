@@ -68,9 +68,10 @@ public class LaserBasic : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (!obj && enemy.tag == "Xp")
+        if (enemy.tag == "Xp")
         {
-            Physics.IgnoreCollision(GetComponent<Collider>(), enemy.GetComponent<Collider>());
+
+            Physics.IgnoreCollision(GetComponent<Collider>(), enemy);
         }
 
 

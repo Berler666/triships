@@ -19,11 +19,19 @@ public class xpOrb : MonoBehaviour {
      void Update()
     {
         float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, GotoObject.transform.position, step);
+       
+
         if(!GotoObject)
         {
-            noship = true;
+           
+            Destroy(gameObject);
         }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, GotoObject.transform.position, step);
+        }
+
+        
     }
 
 
@@ -43,14 +51,7 @@ public class xpOrb : MonoBehaviour {
             Destroy(gameObject);
             
         }
-        else
-        {
-            x1Ship ship = obj.gameObject.GetComponent<x1Ship>();
-           
-            obj.GetComponent<x1Ship>().experince += xpValue;
-            Debug.Log("xp gathered");
-            Destroy(gameObject);
-        }
+       
         
     }
 
