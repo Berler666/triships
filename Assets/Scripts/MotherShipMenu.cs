@@ -28,10 +28,6 @@ public class MotherShipMenu : MonoBehaviour {
     public Image scrapBar;
     public Image unitsBar;
 
-    public Image ShieldsBar;
-    public GameObject shieldText;
-    public GameObject ShieldUI;
-
     public Text researchTxt;
     public Text timeToResearchTxt;
     public Text researchDescriptionTxt;
@@ -57,8 +53,6 @@ public class MotherShipMenu : MonoBehaviour {
         UPanel.SetActive(false);
         RPanel.SetActive(false);
         MPanel.SetActive(false);
-
-       // ShieldUI.SetActive(false);
 	
 	}
 	
@@ -73,7 +67,6 @@ public class MotherShipMenu : MonoBehaviour {
         ammoText.GetComponent<Text>().text = (mothership.ammo + "/" + mothership.maxAmmo);
         scrapText.GetComponent<Text>().text = (mothership.Biosium + "/" + mothership.maxBiosium);
         unitsText.GetComponent<Text>().text = (mothership.units + "/" + mothership.maxUnits);
-      //  shieldText.GetComponent<Text>().text = (mothership.ShieldsHealth + "/" + mothership.MaxShieldHEalth);
 
         rpTxt.text = "Research Points: " + mothership.RP.ToString();
 
@@ -82,7 +75,6 @@ public class MotherShipMenu : MonoBehaviour {
         ammoBar.fillAmount = Map(mothership.ammo, 0, mothership.maxAmmo, 0, 1);
         scrapBar.fillAmount = Map(mothership.Biosium, 0, mothership.maxBiosium, 0, 1);
         unitsBar.fillAmount = Map(mothership.units, 0, mothership.maxUnits, 0, 1);
-      //  ShieldsBar.fillAmount = Map(mothership.ShieldsHealth, 0, mothership.MaxShieldHEalth, 0, 1);
 
         string timedisplay = string.Format("{0:00}:{1:00}:{2:00}", (int)playerController.timePublic / 3600, (int)playerController.timePublic / 60, (int)playerController.timePublic % 60);
 
@@ -97,11 +89,6 @@ public class MotherShipMenu : MonoBehaviour {
         else
         {
             ResearchOverDisplay.SetActive(false);
-        }
-
-        if(BuildingController.AsteroidShield == true)
-        {
-            ShieldUI.SetActive(true);
         }
     }
 

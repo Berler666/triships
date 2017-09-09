@@ -3,12 +3,11 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider))]
 public class Unit : MonoBehaviour
-{  public static Unit ins;
-	public HighlighterInteractive hi;
+{
     #region INSPECTOR FIELDS
     [Range(0, Team.TEAMS_COUNT - 1)]
     public uint teamNumber = 1;
-	 
+
     Color32 Full = new Color32(255, 255, 255, 255);
     Color32 Empty = new Color32(255, 255, 255, 0);
 
@@ -37,8 +36,6 @@ public class Unit : MonoBehaviour
     public float maxHealth = 100;
     public float regeneration = 1;
     public Image healthBar;
-	[HideInInspector]
-	public Color color;
     #endregion
 
     #region PUBLIC FIELDS
@@ -52,65 +49,37 @@ public class Unit : MonoBehaviour
     #endregion
 
     #region EVENTS IMPLEMENTATION
-	 
-	void Start(){
-		if (teamNumber == 1)
-			color = Color.green;
-		else
-			color = Color.red;
-	}
+    void DeSelect()
+    {
+        if (selected)
+        {
+            selected = false;
+           
+           
 
-																// try catch block is used for bool set reset for 
-																// the case when is ship got destroyed by the enemy....
-     void DeSelect(){
-		try{
-			hi.canCallFlash = false;     						// bool is reset for switching off the flashing effect when unit in unselected
-		}catch{			
-		}
-        if (selected){
-			selected = false;
-
-		}
+        }
     }
-    void Select(Unit unit){
-		
-		if (unit == this) {
-			selected = true;
-			try{
-				hi.canCallFlash = true;    						 // bool is set for switching on the flashing effect when unit is selected
-			}catch{
-			}
-			if (OnUnitIsSelected != null) {
-				OnUnitIsSelected (this);
-			}
+    void Select(Unit unit)
+    {
+        if (unit == this)
+        {
+            selected = true;
+           
+          
 
- 		}
+            if (OnUnitIsSelected != null) OnUnitIsSelected(this);
+        }
     }
     void SelectRect(Rect rect)
     {
         if (rect.Contains(Camera.main.WorldToScreenPoint(transform.position)))
-		{  
-            if(team == Team.playerTeam)
-            {
-                selected = true;
-                try
-                {
-                    hi.canCallFlash = true;    // bool is set for switching on the flashing effect when unit is selected
-                }
-                catch
-                {
-                }
-                if (OnUnitIsSelected != null)
-                {
-                    OnUnitIsSelected(this);
-                }
-
-            }
-
-
+        {
+            selected = true;
+           
+            if (OnUnitIsSelected != null) OnUnitIsSelected(this);
         }
     }
-     #endregion
+    #endregion
 
     #region ENGINE MESSAGES
 
@@ -120,44 +89,74 @@ public class Unit : MonoBehaviour
     }
 
     void Awake()
-	{   ins = this;
+    {
         team = Team.teams[teamNumber];
 
-         if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
-   
+       
+
+        if (!icon) Debug.LogWarning("The Icon field is empty in the " + this);
+
+       
+
         if(teamNumber == 1)
         {
            GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>().units += 1;
             
         }
-		 
-         UnitControl.OnDeSelect += DeSelect;
+
+
+        UnitControl.OnDeSelect += DeSelect;
         UnitControl.OnSelect += Select;
         UnitControl.OnSelectRect += SelectRect;
     }
     void OnDestroy()
-	{   
+    {
         UnitControl.OnDeSelect -= DeSelect;
         UnitControl.OnSelect -= Select;
         UnitControl.OnSelectRect -= SelectRect;
     }
     void Update()
     {
-
-        if(Input.GetMouseButtonDown(0) && selected == true)
-        {
-            DeSelect();
-        }
-
-
-       
-
         if(health >= 0)
         {
             healthBar.fillAmount = Map(health, 0, maxHealth, 0, 1);
 
         }
 
+        if (selected)
+        {
+            fade = false;
+        }
+
+        if(!selected)
+        {
+            fade = true;
+        }
+
+        if (fade == true)
+        {
+            Text[] shipsTxts = shipcanvas.GetComponentsInChildren<Text>();
+            Image[] shipsImages = shipcanvas.GetComponentsInChildren<Image>();
+            foreach (Text text in shipsTxts)
+                text.color = Color32.Lerp(Empty, Full, 5f);
+
+            foreach (Image image in shipsImages)
+                image.color = Color32.Lerp(Empty, Full, 5f);
+
+           // fade;
+        }
+        else
+        {
+            Text[] shipsTxts = shipcanvas.GetComponentsInChildren<Text>();
+            Image[] shipsImages = shipcanvas.GetComponentsInChildren<Image>();
+            foreach (Text text in shipsTxts)
+                text.color = Color32.Lerp(Full, Empty, .5f);
+
+            foreach (Image image in shipsImages)
+                image.color = Color32.Lerp(Full, Empty, .5f);
+
+        }
+        
      
         if (health != maxHealth)
         {

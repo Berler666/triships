@@ -24,10 +24,8 @@ public class UnitView : MonoBehaviour
     void OnDestroy()
     {
         UnitControl.OnDeSelect -= Clear;
-		Unit.OnUnitIsSelected -= Add;
-	
+        Unit.OnUnitIsSelected -= Add;
     }
-	 
     void Start()
     {
         UnitControl.OnDeSelect += Clear;

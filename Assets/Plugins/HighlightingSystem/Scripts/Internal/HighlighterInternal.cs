@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace HighlightingSystem
-{   
+{
 	[DisallowMultipleComponent]
 	public partial class Highlighter : MonoBehaviour
-	{  
+	{
 		private enum Mode : int
 		{
 			None, 
@@ -15,7 +15,8 @@ namespace HighlightingSystem
 			HighlighterSeeThrough, 
 			OccluderSeeThrough, 
 		}
- 		// Constants (don't touch this!)
+
+		// Constants (don't touch this!)
 		#region Constants
 		// 
 		public const string keywordSeeThrough = "SEE_THROUGH";
@@ -317,7 +318,6 @@ namespace HighlightingSystem
 		// Updates highlighting color
 		private void UpdateColors()
 		{
-			
 			if (once)
 			{
 				currentColor = onceColor;

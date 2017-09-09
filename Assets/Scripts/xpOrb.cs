@@ -36,36 +36,21 @@ public class xpOrb : MonoBehaviour {
 
 
     void OnTriggerEnter(Collider obj)
-	{  try{
-         if (obj.transform.name == GotoObject.transform.name && noship == false)
+    {
+
+
+
+
+
+        if (obj.transform.name == GotoObject.transform.name && noship == false)
         {
-
-                x1Ship ship = obj.gameObject.GetComponent<x1Ship>();
-
-                if(ship)
-                {
-                    obj.GetComponent<x1Ship>().experince += xpValue;
-                  
-                }
-               
-
-                if(!ship)
-                {
-                    StevieModelE shipStevie = obj.gameObject.GetComponent<StevieModelE>();
-
-                    if(shipStevie)
-                    {
-                        obj.GetComponent<StevieModelE>().experince += xpValue;
-                    }
-                }
-
-           
-         
+            x1Ship ship = obj.gameObject.GetComponent<x1Ship>();
+          
+            obj.GetComponent<x1Ship>().experince += xpValue;
+            Debug.Log("xp gathered");
             Destroy(gameObject);
             
-			}
-		}
-		catch{}
+        }
        
         
     }

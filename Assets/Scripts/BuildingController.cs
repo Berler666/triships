@@ -8,11 +8,8 @@ public class BuildingController : MonoBehaviour {
     public bool canBuild = false;
     public static bool ghostActive = false;
     public static bool CollisionTest;
-    public static bool AsteroidShield = false;
     public bool inDistance = true;
     public bool inMenu;
-
-    public GameObject ResearchCenterBtn;
 
     public GameObject ghost;
     public GameObject Building;
@@ -32,8 +29,6 @@ public class BuildingController : MonoBehaviour {
     public GameObject ghost1;
     public GameObject Moduel2;
     public GameObject Moduel3;
-	public GameObject bridge;
-	public Transform  bridgeParent;
 
 
     public static BuildingController buildControl;
@@ -41,11 +36,30 @@ public class BuildingController : MonoBehaviour {
     public LayerMask GroundOnly;
     RaycastHit hit;
 
-	 
+
+
+
+
+    
+
+
+
+
+
+
+
     // Use this for initialization
     void Start () {
         buildControl = this;
-     }
+
+
+     
+       
+
+
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -54,12 +68,17 @@ public class BuildingController : MonoBehaviour {
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundOnly))
         {
-            GroundMousePoint = new Vector3( hit.point.x, hit.point.y +1.5f, hit.point.z);
+            GroundMousePoint = hit.point;
 
         }
 
         if (ghostActive)
-        { 
+        {
+
+            
+
+
+
             if (Vector3.Distance(ghost.transform.position, Mothership.transform.position) > 10)
             {
                 inDistance = false;
@@ -73,9 +92,19 @@ public class BuildingController : MonoBehaviour {
             Line.SetPosition(0, ghost.transform.position);
             Line.SetPosition(1, Mothership.transform.position);
 
+         
+
+
+
         }
-      }
-	 
+
+
+
+
+    }
+
+
+
     void LateUpdate()
     {
         if (ghostActive)
@@ -98,17 +127,19 @@ public class BuildingController : MonoBehaviour {
                 Debug.Log("Building the unit");
                 GameObject newUnit = Instantiate(Building, GroundMousePoint, Quaternion.identity) as GameObject;
                 newUnit.transform.eulerAngles = ghost.transform.eulerAngles;
-				makeBridge (newUnit);
                 ghostActive = false;
-                Destroy(ResearchCenterBtn);
                 Destroy(ghost);
-             }
+
+            }
 
             if (Input.GetMouseButtonUp(0) && !canBuild && inMenu)
             {
                 Debug.Log("Cannot build");
             }
-         }
+
+          
+
+        }
 
         //inMenu = false;
     }
@@ -126,12 +157,6 @@ public class BuildingController : MonoBehaviour {
         inMenu = false;
 
     }
-	public void makeBridge(GameObject newUnit){
- 		bridge = Instantiate (bridge,Mothership.transform.position, Quaternion.identity);
-		bridge.transform.SetParent (bridgeParent);
-		float distance = Vector3.Distance (Mothership.transform.position, newUnit.transform.position);
-		bridge.transform.LookAt (newUnit.transform);
-		bridge.transform.localScale =new Vector3(0.4f,0.4f, distance);
-//		print (distance);
-	}
- }
+
+  
+}

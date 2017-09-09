@@ -458,7 +458,7 @@ namespace HighlightingSystem
 				if (verbose) { Debug.LogError("HighlightingSystem : Image effects is not supported on this platform!"); }
 				supported = false;
 			}
-
+			
 			// Required Render Texture Format supported?
 			if (!SystemInfo.SupportsRenderTextureFormat(RenderTextureFormat.ARGB32))
 			{
