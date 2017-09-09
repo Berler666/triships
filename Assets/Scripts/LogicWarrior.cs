@@ -119,7 +119,7 @@ public class LogicWarrior : MonoBehaviour
                    
                     attackTime = Time.time + attackDelay;
                     GameObject thisLaser = Instantiate(laser, shipGun.transform.position, shipGun.transform.rotation) as GameObject;
-                    source.PlayOneShot(laserSound);
+                    
                     Physics.IgnoreCollision(thisLaser.GetComponent<Collider>(), GetComponent<Collider>());
                    
                     thisLaser.GetComponent<Rigidbody>().AddForce((shipGun.transform.forward) * shootForce);

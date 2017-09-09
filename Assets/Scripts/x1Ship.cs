@@ -14,6 +14,7 @@ public class x1Ship : MonoBehaviour {
     public Text shipLevel;
 
     public GameObject EvolveEffect;
+    public GameObject LevelUpEffect;
 
     public GameObject shipModel;
 
@@ -57,6 +58,8 @@ public class x1Ship : MonoBehaviour {
     {
         level += 1;
         experince = 0;
+        GameObject Lvlparticle = Instantiate(LevelUpEffect, transform.position, transform.rotation) as GameObject;
+        Lvlparticle.transform.parent = gameObject.transform;
         Debug.Log("Level " + level + "!");
 
         if (level == 1)

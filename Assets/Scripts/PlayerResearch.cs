@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class PlayerResearch : MonoBehaviour {
 
+#region Vars
+
     public bool isResearhing;
     string timeDis;
     public string researchPublic;
@@ -27,14 +29,15 @@ public class PlayerResearch : MonoBehaviour {
     bool x1SpawnTime1 = false;
 
 
-    //Mothership Research
+    [Header(" Mothership Research bools")]
     bool MothershipHP1 = false;
     bool msTurrent1 = false;
     bool ResearchCenter = false;
     bool AsteroidShields = false;
+    public static bool WorkerUnitHp1 = false;
+    public static bool WorkerUnitAtck1 = false;
 
-
-    //Research things
+    //Research Buttons
     public GameObject junkshipBtn;
     public Text junkshipTime;
     bool showjunkshipTime = false;
@@ -56,7 +59,8 @@ public class PlayerResearch : MonoBehaviour {
     Text x1spawn1Time;
     bool showx1spawn1Time = false;
 
-    //Mothership Research Button
+  [Header("Mothership Research Buttons")]
+
     public GameObject mothershipHP1UpgradeBtn;
     Text mothershipHp1Time;
     bool showMothershipHp1Time = false;
@@ -75,10 +79,18 @@ public class PlayerResearch : MonoBehaviour {
     Text AsteroidShieldsTime;
     bool ShowAsteroidShieldsTime = false;
 
+    public GameObject StevieModelEHp1Btn;
+    Text workerHp1Time;
+    bool showWorkerHp1Time = false;
+
+    public GameObject StevieModelEAtk1Btn;
+    Text workerAtk1Time;
+    bool showWorkerAtk1Time = false;
 
 
+    #endregion
 
-
+    #region Funky funcs
     // Use this for initialization
     void Start () {
 
@@ -133,6 +145,17 @@ public class PlayerResearch : MonoBehaviour {
             AsteroidShieldsTime.text = timeDis;
         }
 
+        if (showWorkerHp1Time == true)
+        {
+            workerHp1Time.text = timeDis;
+        }
+
+        if (showWorkerAtk1Time == true)
+        {
+            workerAtk1Time.text = timeDis;
+        }
+
+
 
 
 
@@ -174,10 +197,11 @@ public class PlayerResearch : MonoBehaviour {
         time = 0;
         description = "";
     }
+    #endregion
 
-    //MotherShip Research Button Functions
+#region MotherShip Research Button Functions
 
-        //Mothership Hp1 Upgrade
+    //Mothership Hp1 Upgrade
     public IEnumerator MothershipHp1Upgrade()
     {
 
@@ -193,6 +217,7 @@ public class PlayerResearch : MonoBehaviour {
         yield return new WaitForSecondsRealtime(timePublic);
         MothershipHP1 = true;
         mothership.GetComponent<Unit>().maxHealth += 25;
+        mothership.GetComponent<Unit>().health += 25;
         isResearhing = false;
         showMothershipHp1Time = false;
         Destroy(mothershipHP1UpgradeBtn);
@@ -281,8 +306,7 @@ public class PlayerResearch : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime(timePublic);
         ResearchCenter = true;
-        GameObject RchCntBtn = Instantiate(ResearchCenterButton);
-        RchCntBtn.transform.SetParent(upgradesList.transform, false);
+        ResearchCenterButton.SetActive(true);
         isResearhing = false;
         showResearchCenterTime = false;
         Destroy(ResearchCenterUpgradeBtn);
@@ -299,7 +323,7 @@ public class PlayerResearch : MonoBehaviour {
         {
             mothership.power -= 10;
 
-            StartCoroutine(Research("Research Center", 25, "Allows you to build the Research Center extension"));
+            StartCoroutine(Research("Research Center", 2, "Allows you to build the Research Center extension"));
             StartCoroutine(ResearchCenterUpgrade());
 
         }
@@ -357,9 +381,112 @@ public class PlayerResearch : MonoBehaviour {
 
 
 
+    //Worker Hp 1 Upgrade
+    public IEnumerator WorkerHp1Upgrade()
+    {
+
+
+        isResearhing = true;
+        showWorkerHp1Time = true;
+        StevieModelEHp1Btn.GetComponent<Image>().color = myGren;
+        Text[] WorkerHp1Texts = StevieModelEHp1Btn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in WorkerHp1Texts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        WorkerUnitHp1 = true;
+        StevieModelE[] StevieEs = FindObjectsOfType(typeof(StevieModelE)) as StevieModelE[];
+
+        foreach (StevieModelE ship in StevieEs)
+        {
+            ship.Upgrades();
+        }
+        isResearhing = false;
+        showWorkerHp1Time = false;
+        Destroy(StevieModelEHp1Btn);
+        Debug.Log("Stevie Model e hp1 researched");
 
 
 
+    }
+
+    public void ResearchWorkerHp1()
+    {
+        workerHp1Time = StevieModelEHp1Btn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Stevie Modle E Hp I", 25, "+10 Hp to Stevie Model E Ships"));
+            StartCoroutine(WorkerHp1Upgrade());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+
+    //Worker Atk 1 Upgrade
+    public IEnumerator WorkerAtk1Upgrade()
+    {
+
+
+        isResearhing = true;
+        showWorkerAtk1Time = true;
+        StevieModelEAtk1Btn.GetComponent<Image>().color = myGren;
+        Text[] WorkerAtk1Texts = StevieModelEAtk1Btn.GetComponentsInChildren<Text>();
+
+        foreach (Text text in WorkerAtk1Texts)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        WorkerUnitAtck1 = true;
+        StevieModelE[] StevieEs = FindObjectsOfType(typeof(StevieModelE)) as StevieModelE[];
+
+        foreach (StevieModelE ship in StevieEs)
+        {
+            ship.Upgrades();
+        }
+        isResearhing = false;
+        showWorkerAtk1Time = false;
+        Destroy(StevieModelEAtk1Btn);
+        Debug.Log("Stevie Model e Atk1 researched");
+
+
+
+    }
+
+    public void ResearchWorkerAtk1()
+    {
+        workerAtk1Time = StevieModelEAtk1Btn.transform.Find("Time").GetComponent<Text>();
+
+        if (mothership.power >= 10 && isResearhing == false)
+        {
+            mothership.power -= 10;
+
+            StartCoroutine(Research("Stevie Modle E Atk I", 25, "+5 Atk to Stevie Model E Ships"));
+            StartCoroutine(WorkerAtk1Upgrade());
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+
+
+    #endregion
+
+    #region Other Buttons
 
 
     public IEnumerator X1HpUpgrade1()
@@ -574,3 +701,5 @@ public class PlayerResearch : MonoBehaviour {
 
     }
 }
+
+#endregion

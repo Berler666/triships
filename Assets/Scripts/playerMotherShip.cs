@@ -33,6 +33,9 @@ public class playerMotherShip : MonoBehaviour {
     public float units;
     public float maxUnits;
 
+    //public float ShieldsHealth;
+   // public float MaxShieldHEalth;
+
     public int RP;
 
     #endregion
@@ -70,6 +73,8 @@ public class playerMotherShip : MonoBehaviour {
         {
             canSpawn = false;
         }
+       
+       
 	
 	}
 
