@@ -5,9 +5,8 @@ using UnityEngine.UI;
 public class MotherShipMenu : MonoBehaviour {
 
     public GameObject msMenu;
-   
+    
     public GameObject VHScamera;
-
     public GameObject soPanel;
     public GameObject UPanel;
     public GameObject RPanel;
@@ -28,6 +27,10 @@ public class MotherShipMenu : MonoBehaviour {
     public Image scrapBar;
     public Image unitsBar;
 
+    public Image ShieldsBar;
+    public GameObject shieldText;
+    public GameObject ShieldUI;
+
     public Text researchTxt;
     public Text timeToResearchTxt;
     public Text researchDescriptionTxt;
@@ -36,11 +39,10 @@ public class MotherShipMenu : MonoBehaviour {
     PlayerResearch playerController;
     float health;
     float maxHealth;
-
+ 
 	// Use this for initialization
 	void Start () {
-
-        mothership = GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>();
+         mothership = GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>();
         if (!mothership)
             Debug.Log("Can not find player mothership");
 
@@ -53,6 +55,8 @@ public class MotherShipMenu : MonoBehaviour {
         UPanel.SetActive(false);
         RPanel.SetActive(false);
         MPanel.SetActive(false);
+
+       // ShieldUI.SetActive(false);
 	
 	}
 	
@@ -67,6 +71,7 @@ public class MotherShipMenu : MonoBehaviour {
         ammoText.GetComponent<Text>().text = (mothership.ammo + "/" + mothership.maxAmmo);
         scrapText.GetComponent<Text>().text = (mothership.Biosium + "/" + mothership.maxBiosium);
         unitsText.GetComponent<Text>().text = (mothership.units + "/" + mothership.maxUnits);
+      //  shieldText.GetComponent<Text>().text = (mothership.ShieldsHealth + "/" + mothership.MaxShieldHEalth);
 
         rpTxt.text = "Research Points: " + mothership.RP.ToString();
 
@@ -75,6 +80,7 @@ public class MotherShipMenu : MonoBehaviour {
         ammoBar.fillAmount = Map(mothership.ammo, 0, mothership.maxAmmo, 0, 1);
         scrapBar.fillAmount = Map(mothership.Biosium, 0, mothership.maxBiosium, 0, 1);
         unitsBar.fillAmount = Map(mothership.units, 0, mothership.maxUnits, 0, 1);
+      //  ShieldsBar.fillAmount = Map(mothership.ShieldsHealth, 0, mothership.MaxShieldHEalth, 0, 1);
 
         string timedisplay = string.Format("{0:00}:{1:00}:{2:00}", (int)playerController.timePublic / 3600, (int)playerController.timePublic / 60, (int)playerController.timePublic % 60);
 
@@ -90,6 +96,11 @@ public class MotherShipMenu : MonoBehaviour {
         {
             ResearchOverDisplay.SetActive(false);
         }
+
+        if(BuildingController.AsteroidShield == true)
+        {
+            ShieldUI.SetActive(true);
+        }
     }
 
     private float Map(float value, float inMin, float inMax, float outMin, float outMax)
@@ -99,9 +110,10 @@ public class MotherShipMenu : MonoBehaviour {
 
     public void BackButton()
     {
+		
         Time.timeScale = 1;
         VHScamera.SetActive(false);
-        mothership.UI.SetActive(true);
+         mothership.UI.SetActive(true);
         mothership.MainCamera.GetComponent<ISRTSCamera>().enabled = true;
         mothership.MainCamera.GetComponent<ISRTSCamera>().Start();
 

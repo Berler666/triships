@@ -43,7 +43,7 @@ namespace HighlightingSystem
 		/// Turn on one-frame highlighting.
 		/// </summary>
 		public void On()
-		{
+		{  
 			once = true;
 		}
 		
@@ -229,7 +229,7 @@ namespace HighlightingSystem
 		/// Constant highlighting color.
 		/// </param>
 		public void ConstantOnImmediate(Color color)
-		{
+		{    
 			constantColor = color;
 			transitionValue = transitionTarget = 1f;
 		}
@@ -246,7 +246,7 @@ namespace HighlightingSystem
 		/// Switch constant highlighting immediately (without fading in/out).
 		/// </summary>
 		public void ConstantSwitchImmediate()
-		{
+		{    
 			transitionValue = transitionTarget = (transitionTarget > 0f ? 0f : 1f);
 		}
 

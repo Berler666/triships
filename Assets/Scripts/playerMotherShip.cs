@@ -7,6 +7,7 @@ public class playerMotherShip : MonoBehaviour {
     public GameObject x1;
 
     public GameObject VHScamera;
+
     public GameObject MainCamera;
    
 
@@ -33,6 +34,9 @@ public class playerMotherShip : MonoBehaviour {
     public float units;
     public float maxUnits;
 
+    //public float ShieldsHealth;
+   // public float MaxShieldHEalth;
+
     public int RP;
 
     #endregion
@@ -44,7 +48,7 @@ public class playerMotherShip : MonoBehaviour {
         StartCoroutine(PowerRegen());
 
         VHScamera.SetActive(false);
-
+ 
        if(gameObject.GetComponent<Unit>().teamNumber != 1)
         {
             isPlayer = false;
@@ -70,6 +74,8 @@ public class playerMotherShip : MonoBehaviour {
         {
             canSpawn = false;
         }
+       
+       
 	
 	}
 
@@ -107,7 +113,7 @@ public class playerMotherShip : MonoBehaviour {
         {
           
             VHScamera.SetActive(true);
-            MainCamera.GetComponent<ISRTSCamera>().enabled = false;
+             MainCamera.GetComponent<ISRTSCamera>().enabled = false;
             MainCamera.GetComponent<ISRTSCamera>().StopAllCoroutines();
             UI.SetActive(false);
            
