@@ -6,7 +6,11 @@ using UnityEngine;
 public class PlayerResearchLab : MonoBehaviour {
 
     bool isPlayer;
+    GameObject rcMenu;
+    GameObject MainCamera;
+    GameObject UI;
    
+
 
     playerMotherShip Mothership;
 
@@ -21,6 +25,9 @@ public class PlayerResearchLab : MonoBehaviour {
         {
             isPlayer = true;
             Mothership = GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>();
+            rcMenu = GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().rcMenu;
+            MainCamera = GameObject.Find("Main Camera");
+            UI = GameObject.Find("OnScreenButtons");
         }
 
     }
@@ -30,5 +37,18 @@ public class PlayerResearchLab : MonoBehaviour {
 		
 	}
 
-  
+    void OnMouseDown()
+    {
+        if (isPlayer == true)
+        {
+
+            rcMenu.SetActive(true);
+            MainCamera.GetComponent<ISRTSCamera>().enabled = false;
+            MainCamera.GetComponent<ISRTSCamera>().StopAllCoroutines();
+            UI.SetActive(false);
+
+        }
+    }
+
+
 }

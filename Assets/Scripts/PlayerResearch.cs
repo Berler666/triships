@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class PlayerResearch : MonoBehaviour {
 
-#region Vars
-	public int rotation_X=0;
+    #region Vars
+
+
     public bool isResearhing;
     string timeDis;
     public string researchPublic;
@@ -15,8 +16,7 @@ public class PlayerResearch : MonoBehaviour {
     public GameObject researchList;
     public GameObject upgradesList;
     public GameObject reserchbutton;
-	public GameObject _turrentUp, motherShip;
-	public Transform parentTurrent;
+
 
     Color32 myBlue = new Color32(0, 230, 254, 255);
     Color32 myGren = new Color32(0, 255, 0, 255);
@@ -25,7 +25,7 @@ public class PlayerResearch : MonoBehaviour {
     //Research Bools
     bool x1Hp1 = false;
     bool x1Atk1 = false;
-   
+
     bool junkShip = false;
     bool powerStorage1 = false;
     bool x1SpawnTime1 = false;
@@ -39,13 +39,35 @@ public class PlayerResearch : MonoBehaviour {
     public static bool WorkerUnitHp1 = false;
     public static bool WorkerUnitAtck1 = false;
 
+    [Header("Research Center Research Bools")]
+    public static bool speedAll1 = false;
+    public static bool powerProduction1 = false;
+    public static bool hpAll1 = false;
+
+
+    [Header("Research Center Buttons")]
+    public GameObject speedAll1Btn;
+     Text speedAll1Time;
+    bool showSpeedAll1Time = false;
+
+    public GameObject powerProduction1Btn;
+     Text powerProduction1Time;
+    bool showPowerProd1Time = false;
+
+    public GameObject HpAll1Btn;
+     Text HpAll1Time;
+    bool showHpAll1Time = false;
+
+
+
     //Research Buttons
     public GameObject junkshipBtn;
-    public Text junkshipTime;
+    Text junkshipTime;
     bool showjunkshipTime = false;
 
     public GameObject powerstorage1Btn;
-    public Text ps1Time;
+    Text ps1Time;
+    bool showps1Time = false;
 
     public GameObject x1hpIBtn;
     Text x1hp1Time;
@@ -55,13 +77,13 @@ public class PlayerResearch : MonoBehaviour {
     Text x1atk1Time;
     bool showx1atk1Time = false;
 
-    
+
 
     public GameObject x1Spawnupgrade1Btn;
     Text x1spawn1Time;
     bool showx1spawn1Time = false;
 
-  [Header("Mothership Research Buttons")]
+    [Header("Mothership Research Buttons")]
 
     public GameObject mothershipHP1UpgradeBtn;
     Text mothershipHp1Time;
@@ -76,7 +98,7 @@ public class PlayerResearch : MonoBehaviour {
     public GameObject ResearchCenterButton;
     Text researchCenterTime;
     bool showResearchCenterTime = false;
-	public GameObject turrentMouseFollow;
+   
 
     public GameObject AsteroidShieldsUpgradeBtn;
     Text AsteroidShieldsTime;
@@ -95,9 +117,9 @@ public class PlayerResearch : MonoBehaviour {
 
     #region Funky funcs
     // Use this for initialization
-    void Start () {
+    void Start() {
 
-        
+
 
         isResearhing = false;
 
@@ -105,14 +127,14 @@ public class PlayerResearch : MonoBehaviour {
 
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
 
         if (isResearhing == true)
         {
             timePublic -= Time.unscaledDeltaTime;
-        }else 
+        } else
         {
             timePublic = 0;
         }
@@ -120,12 +142,12 @@ public class PlayerResearch : MonoBehaviour {
         if (timePublic == 0 || timePublic <= 0)
         {
             timePublic = 0;
-           
-          
+
+
         }
 
 
-       timeDis = string.Format("{0:00}:{1:00}:{2:00}", (int)timePublic / 3600, (int)timePublic / 60, (int)timePublic % 60);
+        timeDis = string.Format("{0:00}:{1:00}:{2:00}", (int)timePublic / 3600, (int)timePublic / 60, (int)timePublic % 60);
 
         //Mothership Research Time Display
         if (showMothershipHp1Time == true)
@@ -160,6 +182,22 @@ public class PlayerResearch : MonoBehaviour {
 
 
 
+        //Research Center Time Display
+        if (showSpeedAll1Time == true)
+        {
+            speedAll1Time.text = timeDis;
+        }
+
+        if (showPowerProd1Time == true)
+        {
+            powerProduction1Time.text = timeDis;
+        }
+
+        if (showHpAll1Time == true)
+        {
+            HpAll1Time.text = timeDis;
+        }
+
 
 
 
@@ -168,17 +206,17 @@ public class PlayerResearch : MonoBehaviour {
             junkshipTime.text = timeDis;
         }
 
-        if(showx1hp1Time == true)
+        if (showx1hp1Time == true)
         {
             x1hp1Time.text = timeDis;
         }
 
-        if(showx1atk1Time == true)
+        if (showx1atk1Time == true)
         {
             x1atk1Time.text = timeDis;
         }
 
-       
+
 
         if (showx1spawn1Time == true)
         {
@@ -190,7 +228,7 @@ public class PlayerResearch : MonoBehaviour {
 
     public IEnumerator Research(string research, int time, string description)
     {
-       
+
         Debug.Log(research + time + description);
         researchPublic = research;
         timePublic = time;
@@ -202,7 +240,7 @@ public class PlayerResearch : MonoBehaviour {
     }
     #endregion
 
-#region MotherShip Research Button Functions
+    #region MotherShip Research Button Functions
 
     //Mothership Hp1 Upgrade
     public IEnumerator MothershipHp1Upgrade()
@@ -238,7 +276,7 @@ public class PlayerResearch : MonoBehaviour {
             mothership.power -= 10;
 
             StartCoroutine(Research("Mothership Hp I", 30, "+25 health to the Mothership"));
-             StartCoroutine(MothershipHp1Upgrade());
+            StartCoroutine(MothershipHp1Upgrade());
 
         }
         else
@@ -264,8 +302,8 @@ public class PlayerResearch : MonoBehaviour {
 
         yield return new WaitForSecondsRealtime(timePublic);
         msTurrent1 = true;
-        GameObject tRchBtn = Instantiate(msUpgradeTurrent1Btn);
-        tRchBtn.transform.SetParent(upgradesList.transform, false);
+        msUpgradeTurrent1Btn.SetActive(true);
+
         isResearhing = false;
         showmsTurrent1Time = false;
         Destroy(msTurrent1Btn);
@@ -281,12 +319,10 @@ public class PlayerResearch : MonoBehaviour {
         if (mothership.power >= 10 && isResearhing == false)
         {
             mothership.power -= 10;
-			placingTurrent.ins.canPlaceTurrent = true;
-			turrentMouseFollow.SetActive (true);
-//			placeTurrentsOnMesh ();   // to be called for placing turrents on the mesh of the mothership...
+
             StartCoroutine(Research("Mothership Turrent Upgrade 1", 25, "Allows you to build a turrent on the mothership"));
             StartCoroutine(MsTurentUpgrade1());
-		 
+
 
         }
         else
@@ -297,15 +333,15 @@ public class PlayerResearch : MonoBehaviour {
 
     }
 
-//	public void placeTurrentsOnMesh( ){
-//		GameObject newTurrent;
-//		print (" place turrents is called");
-//		newTurrent  = Instantiate (_turrentUp,mothership.transform.position,new Quaternion(_turrentUp.transform.rotation.x,_turrentUp.transform.rotation.y, _turrentUp.transform.rotation.z,_turrentUp.transform.rotation.w));
-//		newTurrent.transform.SetParent (parentTurrent);
-//		newTurrent.transform.localEulerAngles = new Vector3 (rotation_X,newTurrent.transform.localEulerAngles.y,newTurrent.transform.localEulerAngles.z);
-//		rotation_X += 15;
-//   		
-//	}
+    //	public void placeTurrentsOnMesh( ){
+    //		GameObject newTurrent;
+    //		print (" place turrents is called");
+    //		newTurrent  = Instantiate (_turrentUp,mothership.transform.position,new Quaternion(_turrentUp.transform.rotation.x,_turrentUp.transform.rotation.y, _turrentUp.transform.rotation.z,_turrentUp.transform.rotation.w));
+    //		newTurrent.transform.SetParent (parentTurrent);
+    //		newTurrent.transform.localEulerAngles = new Vector3 (rotation_X,newTurrent.transform.localEulerAngles.y,newTurrent.transform.localEulerAngles.z);
+    //		rotation_X += 15;
+    //   		
+    //	}
 
     //Research Center Upgrade
     public IEnumerator ResearchCenterUpgrade()
@@ -513,7 +549,7 @@ public class PlayerResearch : MonoBehaviour {
         showx1hp1Time = true;
         x1hpIBtn.GetComponent<Image>().color = myGren;
         Text[] x1hptxts = x1hpIBtn.GetComponentsInChildren<Text>();
-       
+
         foreach (Text text in x1hptxts)
             text.color = myGren;
 
@@ -535,7 +571,7 @@ public class PlayerResearch : MonoBehaviour {
         if (mothership.power >= 10 && isResearhing == false)
         {
             mothership.power -= 10;
-           
+
             StartCoroutine(Research("X1 HP Upgrade", 30, "+5 health to the X1"));
             StartCoroutine(X1HpUpgrade1());
 
@@ -639,34 +675,34 @@ public class PlayerResearch : MonoBehaviour {
     public IEnumerator JunkShip()
     {
 
-      
-            isResearhing = true;
+
+        isResearhing = true;
         showjunkshipTime = true;
-            junkshipBtn.GetComponent<Image>().color = myGren;
-            Text[] jkbTxt = junkshipBtn.GetComponentsInChildren<Text>();
-            
-            foreach (Text text in jkbTxt)
-                text.color = myGren;
+        junkshipBtn.GetComponent<Image>().color = myGren;
+        Text[] jkbTxt = junkshipBtn.GetComponentsInChildren<Text>();
 
-            yield return new WaitForSecondsRealtime(timePublic);
-            junkShip = true;
-            isResearhing = false;
+        foreach (Text text in jkbTxt)
+            text.color = myGren;
+
+        yield return new WaitForSecondsRealtime(timePublic);
+        junkShip = true;
+        isResearhing = false;
         showjunkshipTime = false;
-            Destroy(junkshipBtn);
-            Debug.Log("junkship researched");
-           
+        Destroy(junkshipBtn);
+        Debug.Log("junkship researched");
 
-      
+
+
     }
 
     public void ResearchJunkShip()
     {
 
-    if (mothership.power >= 10 && mothership.Biosium >= 15 && isResearhing == false)
-    {
+        if (mothership.power >= 10 && mothership.Biosium >= 15 && isResearhing == false)
+        {
 
-        StartCoroutine(Research("Junk Ship", 20, "Junk ships collect Power, Ammo and Biosium from defeated enemies"));
-        StartCoroutine(JunkShip());
+            StartCoroutine(Research("Junk Ship", 20, "Junk ships collect Power, Ammo and Biosium from defeated enemies"));
+            StartCoroutine(JunkShip());
 
         }
         else
@@ -692,6 +728,7 @@ public class PlayerResearch : MonoBehaviour {
             yield return new WaitForSecondsRealtime(timePublic);
             powerStorage1 = true;
             isResearhing = false;
+            Destroy(powerstorage1Btn);
             Debug.Log("Power Upgrade Complete");
 
         }
@@ -716,6 +753,136 @@ public class PlayerResearch : MonoBehaviour {
         btn.transform.SetParent(researchList.transform, false);
 
     }
-}
 
-#endregion
+
+    #endregion
+
+    #region Research Center Research Center
+
+    public IEnumerator SpeedAll1()
+    {
+
+        if (mothership.power >= 10 && mothership.Biosium >= 15)
+        {
+            isResearhing = true;
+            showSpeedAll1Time = true;
+            speedAll1Btn.GetComponent<Image>().color = myGren;
+            Text[] sa1Txt = speedAll1Btn.GetComponentsInChildren<Text>();
+
+            foreach (Text text in sa1Txt)
+                text.color = myGren;
+
+            yield return new WaitForSecondsRealtime(timePublic);
+            speedAll1 = true;
+            isResearhing = false;
+            Destroy(speedAll1Btn);
+            Debug.Log("Speed all 1 Upgrade Complete");
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    public void ResearchSpeedAll1()
+    {
+
+        speedAll1Time = speedAll1Btn.transform.Find("Time").GetComponent<Text>();
+
+        StartCoroutine(Research("Speed All 1", 20, "All Ships +1 Speed"));
+        StartCoroutine(SpeedAll1());
+
+
+
+    }
+
+
+
+    public IEnumerator PowerProduction1()
+    {
+
+        if (mothership.power >= 10 && mothership.Biosium >= 15)
+        {
+            isResearhing = true;
+            showPowerProd1Time = true;
+            powerProduction1Btn.GetComponent<Image>().color = myGren;
+            Text[] pp1Txt = powerProduction1Btn.GetComponentsInChildren<Text>();
+
+            foreach (Text text in pp1Txt)
+                text.color = myGren;
+
+            yield return new WaitForSecondsRealtime(timePublic);
+            powerProduction1 = true;
+            isResearhing = false;
+            Destroy(powerProduction1Btn);
+            Debug.Log("Power Production 1 Complete");
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    public void ResearchPowerProduction1()
+    {
+
+        powerProduction1Time = powerProduction1Btn.transform.Find("Time").GetComponent<Text>();
+
+        StartCoroutine(Research("Power Production 1", 20, "+ more power"));
+        StartCoroutine(PowerProduction1());
+
+
+
+    }
+
+    public IEnumerator HpAll1()
+    {
+
+        if (mothership.power >= 10 && mothership.Biosium >= 15)
+        {
+            isResearhing = true;
+            showHpAll1Time = true;
+            HpAll1Btn.GetComponent<Image>().color = myGren;
+            Text[] hpa1Txt = HpAll1Btn.GetComponentsInChildren<Text>();
+
+            foreach (Text text in hpa1Txt)
+                text.color = myGren;
+
+            yield return new WaitForSecondsRealtime(timePublic);
+            hpAll1 = true;
+            isResearhing = false;
+            Destroy(HpAll1Btn);
+            Debug.Log("Hp all 1 Researched");
+
+        }
+        else
+        {
+            NotEoughResources.showNER = true;
+        }
+
+
+    }
+
+    public void ResearchHpAll1()
+    {
+        HpAll1Time = HpAll1Btn.transform.Find("Time").GetComponent<Text>();
+
+
+        StartCoroutine(Research("Hp all 1", 20, "All Ships +5 Health"));
+        StartCoroutine(HpAll1());
+
+
+
+    }
+
+
+
+
+    #endregion
+}

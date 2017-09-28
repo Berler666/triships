@@ -5,12 +5,14 @@ using UnityEngine.UI;
 public class MotherShipMenu : MonoBehaviour {
 
     public GameObject msMenu;
+   
     
     public GameObject VHScamera;
     public GameObject soPanel;
     public GameObject UPanel;
     public GameObject RPanel;
     public GameObject MPanel;
+    public GameObject EPanel;
 
     public GameObject healthText;
     public GameObject powerText;
@@ -18,6 +20,7 @@ public class MotherShipMenu : MonoBehaviour {
     public GameObject scrapText;
     public GameObject unitsText;
     public GameObject ResearchOverDisplay;
+    public GameObject EvolveButton;
 
     public Text rpTxt;
 
@@ -39,9 +42,14 @@ public class MotherShipMenu : MonoBehaviour {
     PlayerResearch playerController;
     float health;
     float maxHealth;
- 
-	// Use this for initialization
-	void Start () {
+
+    [Header("Reseach Center")]
+    public  GameObject rcMenu;
+    public GameObject rcUPanel;
+    public GameObject rcRPanel;
+
+    // Use this for initialization
+    void Start () {
          mothership = GameObject.Find("PlayerMothership").GetComponent<playerMotherShip>();
         if (!mothership)
             Debug.Log("Can not find player mothership");
@@ -55,6 +63,8 @@ public class MotherShipMenu : MonoBehaviour {
         UPanel.SetActive(false);
         RPanel.SetActive(false);
         MPanel.SetActive(false);
+        EPanel.SetActive(false);
+        EvolveButton.SetActive(false);
 
        // ShieldUI.SetActive(false);
 	
@@ -154,4 +164,31 @@ public class MotherShipMenu : MonoBehaviour {
         RPanel.SetActive(false);
         MPanel.SetActive(true);
     }
+
+
+    public void RCBackButton()
+    {
+
+        Time.timeScale = 1;
+        rcMenu.SetActive(false);
+        mothership.UI.SetActive(true);
+        mothership.MainCamera.GetComponent<ISRTSCamera>().enabled = true;
+        mothership.MainCamera.GetComponent<ISRTSCamera>().Start();
+
+
+    }
+
+    public void RCShipResearch()
+    {
+        rcRPanel.SetActive(true);
+        rcUPanel.SetActive(false);
+    }
+
+    public void RCUpgrades()
+    {
+
+        rcRPanel.SetActive(false);
+        rcUPanel.SetActive(true);
+    }
+
 }

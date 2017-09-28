@@ -4,48 +4,54 @@ using UnityEngine;
 
 public class BuildingController : MonoBehaviour {
 
+    public GameObject Mothership;
+ 
+
+    public GameObject ResearchCenterBtn;
+    public GameObject Turrent1Btn;
+ 
+
+    public bool researchFacility = false;
+    public static bool AsteroidShield = false;
+
+
+    [Header("Building")]
+    public bool inDistance = true;
+    public bool inMenu;
     public bool isBuilding = false;
     public bool canBuild = false;
     public static bool ghostActive = false;
     public static bool CollisionTest;
-    public static bool AsteroidShield = false;
-    public bool inDistance = true;
-    public bool inMenu;
-
-    public GameObject ResearchCenterBtn;
- 
-	public GameObject circleRenderer;
     public GameObject ghost;
     public GameObject Building;
     public LineRenderer Line;
-	public float DistanceMax=10;
-
     public Material GreenTransparent;
     public Material RedTransparent;
-
-    public bool researchFacility = false;
-
-    public GameObject Mothership;
-    public float maxDistance = 10;
-	[Header("check if you want to rotate the " +
-		"circle renderer")]
-	public bool canRotateRenderer = true;
-    [Header("Moduels")]
-    public GameObject Moduel1;
-    public GameObject ghost1;
-    public GameObject Moduel2;
-    public GameObject Moduel3;
-	public GameObject bridge;
-	public Transform  bridgeParent;
-
-
     public static BuildingController buildControl;
     public static Vector3 GroundMousePoint;
     public LayerMask GroundOnly;
     RaycastHit hit;
 
-	 
-    // Use this for initialization
+    [Header("circle renderer")]
+    public GameObject circleRenderer;
+    public bool canRotateRenderer = true;
+    public float DistanceMax = 10;
+
+    [Header("Moduels")]
+    public GameObject ResearchCenter;
+    public GameObject ResearchCenterGhost;
+    public GameObject Moduel2;
+    public GameObject Moduel3;
+	public GameObject bridge;
+	public Transform  bridgeParent;
+
+    [Header("Objects")]
+    public GameObject _turrentUp, motherShip;
+    public Transform parentTurrent;
+    public GameObject turrentMouseFollow;
+
+
+   
     void Start () {
         buildControl = this;
      }
@@ -57,7 +63,7 @@ public class BuildingController : MonoBehaviour {
 
  
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundOnly)){
-            GroundMousePoint = new Vector3( hit.point.x, hit.point.y +1.5f, hit.point.z);
+            GroundMousePoint = new Vector3( hit.point.x, Mothership.transform.position.y, hit.point.z);
 
         }
 
@@ -118,14 +124,36 @@ public class BuildingController : MonoBehaviour {
         //inMenu = false;
     }
 
+    //Object Placing
+
+        public void Turrent1()
+    {
+        GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
+        placingTurrent.ins.canPlaceTurrent = true;
+        turrentMouseFollow.SetActive(true);
+        inMenu = false;
+        Destroy(Turrent1Btn);
+        
+    }
+
+    public void AsteroidSheilds()
+    {
+        GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
+      
+        inMenu = false;
+
+    }
+
+
+
     public void buildObject1()
     {
         if (ghostActive)
         {
             Destroy(ghost);
         }
-		ghost = Instantiate(ghost1, Vector3.zero, Quaternion.identity) as GameObject;
-        Building = Moduel1;
+		ghost = Instantiate(ResearchCenterGhost, Vector3.zero, Quaternion.identity) as GameObject;
+        Building = ResearchCenter;
         ghostActive = true;
         GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
         inMenu = false;

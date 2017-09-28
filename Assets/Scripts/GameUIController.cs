@@ -15,7 +15,8 @@ public class GameUIController : MonoBehaviour {
 	void Start () {
 		particlesys = _particles.GetComponent<ParticleSystem> ();
 		particlesys.Stop ();
-       cameraControl = GameObject.Find("Main Camera");
+        _particles.SetActive(false);
+        cameraControl = GameObject.Find("Main Camera");
          GameMenu.SetActive(false);
         Time.timeScale = 1;
         
@@ -42,6 +43,7 @@ public class GameUIController : MonoBehaviour {
         GameMenu.SetActive(true);
            menuOpen = true;
         Time.timeScale = 0;
+        _particles.SetActive(true);
 		particlesys.Play ();
 
     }
@@ -49,13 +51,15 @@ public class GameUIController : MonoBehaviour {
     public void CloseGameMenu()  {
         GameMenu.SetActive(false);
 		particlesys.Stop ();
-          menuOpen = false;
+        _particles.SetActive(false);
+        menuOpen = false;
         Time.timeScale = 1;
     }
 
     public void QuitCurrentGame()
 	{   particlesys.Stop ();
-         Time.timeScale = 1;
+      
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
 
