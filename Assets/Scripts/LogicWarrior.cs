@@ -87,7 +87,7 @@ public class LogicWarrior : MonoBehaviour
         EngineParticles = EngineParticles.GetComponent<ParticleSystem>();
         EngineGlowParticles = EngineParticles.GetComponent<ParticleSystem>();
 
-        unit = GetComponent<Unit>();
+         unit = GetComponent<Unit>();
         if (unit.team == Team.playerTeam)
         {
             patrolArea = false;

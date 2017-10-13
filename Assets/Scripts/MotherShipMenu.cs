@@ -108,7 +108,7 @@ public class MotherShipMenu : MonoBehaviour {
         }
 
         if(BuildingController.AsteroidShield == true)
-        {
+		{ 
             ShieldUI.SetActive(true);
         }
     }

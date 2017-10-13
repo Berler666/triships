@@ -5,11 +5,10 @@ using UnityEngine;
 public class BuildingController : MonoBehaviour {
 
     public GameObject Mothership;
- 
-
     public GameObject ResearchCenterBtn;
     public GameObject Turrent1Btn;
- 
+//	[HideInInspector]
+	public bool canPlaceAsteroidSheild= false;
 
     public bool researchFacility = false;
     public static bool AsteroidShield = false;
@@ -36,6 +35,7 @@ public class BuildingController : MonoBehaviour {
     public GameObject circleRenderer;
     public bool canRotateRenderer = true;
     public float DistanceMax = 10;
+	public LayerMask layer;
 
     [Header("Moduels")]
     public GameObject ResearchCenter;
@@ -44,32 +44,32 @@ public class BuildingController : MonoBehaviour {
     public GameObject Moduel3;
 	public GameObject bridge;
 	public Transform  bridgeParent;
+	public GameObject _AsteroidShield;
+	public Transform sheildParent;
 
     [Header("Objects")]
     public GameObject _turrentUp, motherShip;
     public Transform parentTurrent;
     public GameObject turrentMouseFollow;
-
+	Vector3 sphereMousePoint;
 
    
     void Start () {
         buildControl = this;
+
      }
 	
 	// Update is called once per frame
 	void Update () {
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
- 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundOnly)){
-            GroundMousePoint = new Vector3( hit.point.x, Mothership.transform.position.y, hit.point.z);
+         if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundOnly)){
+			GroundMousePoint = new Vector3( hit.point.x, Mothership.transform.position.y, hit.point.z);
 
         }
 
 		if (ghostActive) {
-			print (Vector3.Distance (ghost.transform.position, Mothership.transform.position));
-			if (Vector3.Distance (ghost.transform.position, Mothership.transform.position) > DistanceMax) {
+ 			if (Vector3.Distance (ghost.transform.position, Mothership.transform.position) > DistanceMax) {
 				inDistance = false;
 			} else {
 				inDistance = true;
@@ -79,51 +79,62 @@ public class BuildingController : MonoBehaviour {
 			Line.SetPosition (0, ghost.transform.position);
 			Line.SetPosition (1, Mothership.transform.position);
 			if (canRotateRenderer) {
-				circleRenderer.transform.parent.LookAt (GroundMousePoint);
+				circleRenderer.transform.parent.LookAt (ghost.transform.position);
 			}
 		}
       }
 	 
     void LateUpdate()
     {
-        if (ghostActive)
-        {
-            if (inDistance == true && CollisionTest == true)
-            {
-                canBuild = true;
-                ghost.GetComponent<Renderer>().material = GreenTransparent;
-                Line.material = GreenTransparent;
-            }
-            else
-            {
-                canBuild = false;
-                ghost.GetComponent<Renderer>().material = RedTransparent;
-                Line.material = RedTransparent;
-            }   
+		if (ghostActive) {
+			if (inDistance == true && CollisionTest == true) {
+				canBuild = true;
+				ghost.GetComponent<Renderer> ().material = GreenTransparent;
+				Line.material = GreenTransparent;
+			} else {
+				canBuild = false;
+				ghost.GetComponent<Renderer> ().material = RedTransparent;
+				Line.material = RedTransparent;
+			}   
 
-            if (Input.GetMouseButtonUp(0) && canBuild && !inMenu)
-            {
-                Debug.Log("Building the unit");
-                GameObject newUnit = Instantiate(Building, GroundMousePoint, Quaternion.identity) as GameObject;
-                newUnit.transform.eulerAngles = ghost.transform.eulerAngles;
+			if (Input.GetMouseButtonUp (0) && canBuild && !inMenu) {
+				Debug.Log ("Building the unit");
+				GameObject newUnit = Instantiate (Building, GroundMousePoint, Quaternion.identity) as GameObject;
+				newUnit.tag = "ResearchLab";
+				newUnit.transform.eulerAngles = ghost.transform.eulerAngles;
 				makeBridge (newUnit);
-                ghostActive = false;
-                Destroy(ResearchCenterBtn);
-                Destroy(ghost);
+				ghostActive = false;
+				Destroy (ResearchCenterBtn);
+				Destroy (ghost);
 				circleRenderer.SetActive (false);
-             }
+				Cursor.visible = true;
+			}
 
-            if (Input.GetMouseButtonUp(0) && !canBuild && inMenu)
-            {
-                Debug.Log("Cannot build");
-            }
-			if (Input.GetMouseButtonDown (1))
+			if (Input.GetMouseButtonUp (0) && !canBuild && inMenu) {
+				Debug.Log ("Cannot build");
+			}
+			if (Input.GetMouseButtonDown (1)) {
 				circleRenderer.SetActive (false);
-         }
+				Cursor.visible = true;
+			}
+		}
 
         //inMenu = false;
     }
-
+	void FixedUpdate () {
+		if(canPlaceAsteroidSheild){
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			if (Input.GetMouseButtonDown (1)) {
+				if (Physics.Raycast (ray, out hit,150,layer)) {
+					if (hit.collider.name == "Mother Ship Collider Turrentz" ) {
+ 						sphereMousePoint = new Vector3 (hit.point.x, hit.point.y, hit.point.z);
+						AsteroidSheilds (hit.point);
+					}
+				}
+			}
+		}
+ 	}
+ 
     //Object Placing
 
         public void Turrent1()
@@ -131,17 +142,24 @@ public class BuildingController : MonoBehaviour {
         GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
         placingTurrent.ins.canPlaceTurrent = true;
         turrentMouseFollow.SetActive(true);
-        inMenu = false;
+          inMenu = false;
         Destroy(Turrent1Btn);
         
     }
 
-    public void AsteroidSheilds()
-    {
-        GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
-      
-        inMenu = false;
-
+	public void AsteroidSheilds(Vector3 dir)
+	{   
+         GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
+		print ("asteroid sheild is called");
+         inMenu = false;
+		GameObject asteroidSheild;
+ 		canPlaceAsteroidSheild = false;
+		asteroidSheild = Instantiate (_AsteroidShield,motherShip.transform.position,Quaternion.identity);
+ 		asteroidSheild.transform.LookAt (dir);
+		asteroidSheild.transform.localEulerAngles = new Vector3(asteroidSheild.transform.localEulerAngles.x+90, asteroidSheild.transform.localEulerAngles.y, asteroidSheild.transform.localEulerAngles.z);
+ 		asteroidSheild.transform.SetParent (sheildParent);
+    		
+ 
     }
 
 
@@ -153,19 +171,22 @@ public class BuildingController : MonoBehaviour {
             Destroy(ghost);
         }
 		ghost = Instantiate(ResearchCenterGhost, Vector3.zero, Quaternion.identity) as GameObject;
-        Building = ResearchCenter;
+         Building = ResearchCenter;
         ghostActive = true;
         GameObject.Find("Mothership UI Controller").GetComponent<MotherShipMenu>().BackButton();
         inMenu = false;
 		circleRenderer.SetActive (true);
+		Cursor.visible = false;
     }
 	public void makeBridge(GameObject newUnit){
  		bridge = Instantiate (bridge,Mothership.transform.position, Quaternion.identity);
+		bridge.tag="Bridge";
 		bridge.transform.SetParent (bridgeParent);
 		float distance = Vector3.Distance (Mothership.transform.position, newUnit.transform.position);
 		bridge.transform.LookAt (newUnit.transform);
 		bridge.transform.localScale =new Vector3(0.4f,0.4f, distance);
 		circleRenderer.SetActive (false);
+		Cursor.visible = true;
 //		print (distance);
 	}
  }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class FollowMouse : MonoBehaviour
 {
-	
+	Vector3 targetPos;
     void Start()
     {
         BuildingController.CollisionTest = true;
+		targetPos = transform.position;
     }
 
     void Update()
     {   
-        transform.position = new Vector3(BuildingController.GroundMousePoint.x, BuildingController.GroundMousePoint.y + 0.5f, BuildingController.GroundMousePoint.z);
+ 
+         transform.position = new Vector3(BuildingController.GroundMousePoint.x, BuildingController.GroundMousePoint.y + 0.5f, BuildingController.GroundMousePoint.z);
  
         if (Input.GetMouseButtonUp(1))
         {

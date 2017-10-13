@@ -245,9 +245,7 @@ public class PlayerResearch : MonoBehaviour {
     //Mothership Hp1 Upgrade
     public IEnumerator MothershipHp1Upgrade()
     {
-
-
-        isResearhing = true;
+          isResearhing = true;
         showMothershipHp1Time = true;
         mothershipHP1UpgradeBtn.GetComponent<Image>().color = myGren;
         Text[] msHp1Txts = mothershipHP1UpgradeBtn.GetComponentsInChildren<Text>();
@@ -389,21 +387,21 @@ public class PlayerResearch : MonoBehaviour {
 
     //Asteroid Shields Upgrade
     public IEnumerator AsteroidShieldsUpgrade()
-    {
-
-
-        isResearhing = true;
+	{
+		isResearhing = true;
         ShowAsteroidShieldsTime = true;
         AsteroidShieldsUpgradeBtn.GetComponent<Image>().color = myGren;
         Text[] AsteroidShieldTxts = AsteroidShieldsUpgradeBtn.GetComponentsInChildren<Text>();
 
         foreach (Text text in AsteroidShieldTxts)
             text.color = myGren;
-
+		print ("call asteroid place here");
+		BuildingController.buildControl.canPlaceAsteroidSheild = true;
         yield return new WaitForSecondsRealtime(timePublic);
         AsteroidShields = true;
         isResearhing = false;
         ShowAsteroidShieldsTime = false;
+
         Destroy(AsteroidShieldsUpgradeBtn);
         Debug.Log("Asteroid Shields Upgrade researched");
 

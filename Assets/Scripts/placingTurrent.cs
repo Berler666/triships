@@ -7,12 +7,15 @@ public class placingTurrent : MonoBehaviour {
   	RaycastHit hit;
 	Vector3 sphereMousePoint;
 	public bool canPlaceTurrent;
-	public GameObject _turrentUp, motherShip, turrentMouseFollow  ;
+	public GameObject turrentMothership, turrentBridge, turrentResearchLab, motherShip,turrentMouseFollow  ;
 	public Transform parentTurrent;
 	public LayerMask layer;
 	public Material turrentPlacerMat;
+	Vector3 reseachLabPosition;
+	public Vector3 direction;
 	public bool canFlashMothership=false;
- 	// Use this for initialization
+	public string place;
+  	// Use this for initialization
 	void Awake () {
 		ins = this;
  	}
@@ -22,7 +25,8 @@ public class placingTurrent : MonoBehaviour {
   		if (canPlaceTurrent) {
  			Ray rayPlacerChecker = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast (rayPlacerChecker, out hit, 500, layer)) {
-				if (hit.collider.name == "Mother Ship Collider Turrentz") {
+				if (hit.collider.name == "Mother Ship Collider Turrentz" || hit.collider.tag== "ResearchLab" || hit.collider.tag=="Bridge") {
+					print (hit.collider.name);
 					turrentPlacerMat.color = Color.green;
 					canFlashMothership = true;
 				} else
@@ -32,26 +36,72 @@ public class placingTurrent : MonoBehaviour {
 				turrentPlacerMat.color = Color.red;
 				canFlashMothership = false;
 			}
+
+
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Input.GetMouseButtonDown (1)) {
-				if (Physics.Raycast (ray, out hit,150,layer)) {
-					if (hit.collider.name == "Mother Ship Collider Turrentz" ) {
- 						sphereMousePoint = new Vector3 (hit.point.x, hit.point.y, hit.point.z);
-						placeTurrentsOnMesh (sphereMousePoint, hit.point);
+				if (Physics.Raycast (ray, out hit,150 ,layer)) {
+ 					if (hit.collider.name == "Mother Ship Collider Turrentz" ) {
+ 						place= "motherShip";
+						placeTurrentsOnMesh (  hit.point, place, turrentMothership );
+						direction = hit.normal;
 					}
+					else if (hit.collider.tag == "ResearchLab" ) {
+ 						place= "ResearchLab";
+						reseachLabPosition = hit.collider.gameObject.transform.position;
+						placeTurrentsOnMesh (  hit.point, place, turrentResearchLab );
+						direction = hit.normal;
+					}
+					else if (hit.collider.tag == "Bridge" ) {
+						place= "Bridge";
+						placeTurrentsOnMesh (  hit.point, place, turrentBridge, hit.collider.transform  );
+						direction = hit.normal;
+					}
+
 				}
 			}
 		}
   	}
 
-	public void placeTurrentsOnMesh( Vector3 sphereMousePoint , Vector3 dir){
+	public void placeTurrentsOnMesh(Vector3 dir, string place, GameObject turrent, Transform colliderGameobject= null ){
 		GameObject newTurrent;
-  		Quaternion lookat= new Quaternion(dir.x,dir.y,dir.z,0);
-		newTurrent = Instantiate (_turrentUp,motherShip.transform.position,/* new Quaternion (_turrentUp.transform.rotation.x, _turrentUp.transform.rotation.y, _turrentUp.transform.rotation.z, _turrentUp.transform.rotation.w)*/Quaternion.identity);
- 		newTurrent.transform.SetParent ( parentTurrent);
-		turrentMouseFollow.SetActive (false);
-		newTurrent.transform.LookAt (dir);
- 		canPlaceTurrent = false;
+		if (place == "motherShip") {
+			newTurrent = Instantiate (turrent, motherShip.transform.position,Quaternion.identity);
+			newTurrent.transform.SetParent ( parentTurrent);
+			newTurrent.transform.LookAt (dir);
+		}
+
+		else if (place == "ResearchLab") {
+			newTurrent = Instantiate (turrent, reseachLabPosition,Quaternion.identity);
+			newTurrent.transform.SetParent ( parentTurrent);
+			newTurrent.transform.LookAt (dir);
+		}
+		else if(place=="Bridge") {
+			newTurrent = Instantiate (turrent, dir,Quaternion.identity);
+			newTurrent.transform.SetParent (parentTurrent);
+//			newTurrent.transform.eulerAngles = hit.collider.transform.eulerAngles;
+			print(hit.collider.name);
+            if (hit.collider.name == "Up")
+            {
+                newTurrent.transform.localEulerAngles = new Vector3(180, 360 + hit.transform.eulerAngles.y, 180);
+            }
+            else if (hit.collider.name == "Side 2")
+            {
+                newTurrent.transform.localEulerAngles = new Vector3(180, 360 + hit.transform.eulerAngles.y, 90);
+            }
+            else if (hit.collider.name == "Side 1")
+            {
+                newTurrent.transform.localEulerAngles = new Vector3(180, 360 + hit.transform.eulerAngles.y, 270);
+            }
+            else if (hit.collider.name == "Down")
+            {
+                newTurrent.transform.localEulerAngles = new Vector3(180, 360 + hit.transform.eulerAngles.y, 360);
+            }
+            //			newTurrent.transform.LookAt (normal);
+        }
+
+ 		turrentMouseFollow.SetActive (false);
+  		canPlaceTurrent = false;
 		canFlashMothership = false;
 		turrentPlacerMat.color = Color.red;
   	}
