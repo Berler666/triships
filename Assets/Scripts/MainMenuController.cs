@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour {
 
@@ -11,19 +11,31 @@ public class MainMenuController : MonoBehaviour {
     public GameObject settingsMenu;
     public GameObject SaveSlots;
 
+    private AudioController audioController;
+
+
+
 
     // Use this for initialization
-    private void Awake()
-    {
-        gameObject.GetComponent<AudioSource>().Play(0);
-    }
+  
     void Start () {
         campaignMenu.SetActive(false);
         singleplayerMenu.SetActive(false);
         settingsMenu.SetActive(false);
         SaveSlots.SetActive(false);
-		
-	}
+
+       
+
+        audioController = AudioController.instance;
+        if(audioController == null)
+        {
+            Debug.LogError("No Audio Controller");
+        }
+
+        audioController.PlaySound("TechnicalDif");
+        audioController.PlaySound("poop");
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

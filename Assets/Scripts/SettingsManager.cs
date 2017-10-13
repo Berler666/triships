@@ -14,12 +14,16 @@ public class SettingsManager : MonoBehaviour
     public Dropdown VsyncDropdown;
     public Button applyButton;
 
+    public Slider musicVol;
+    public Slider sfxVol;
+
     public Resolution[] resolitions;
     public GameSettings gameSettings;
 
     void OnEnable()
     {
         gameSettings = new GameSettings();
+       
 
         fullscreenToggle.onValueChanged.AddListener(delegate { OnFullscreenToggle(); });
         ResolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionChange(); });
@@ -27,6 +31,8 @@ public class SettingsManager : MonoBehaviour
         antiialiasingDropdown.onValueChanged.AddListener(delegate { OnAntialiasingChnage(); });
         VsyncDropdown.onValueChanged.AddListener(delegate { OnVsyncChange(); });
         applyButton.onClick.AddListener(delegate { ApplySettingsButton(); });
+
+        musicVol.onValueChanged.AddListener(delegate { OnMusicChange(); });
 
         resolitions = Screen.resolutions;
         foreach(Resolution resolution in resolitions)
@@ -89,6 +95,12 @@ public class SettingsManager : MonoBehaviour
     public void ApplySettingsButton()
     {
         SaveSettings();
+
+    }
+
+    public void OnMusicChange()
+    {
+        GameObject.Find("SoundManager").GetComponent<AudioController>().ChangeMusicVolume(musicVol.value);
     }
 
 }
